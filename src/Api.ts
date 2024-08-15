@@ -1,16 +1,5 @@
-import { Schema } from "@effect/schema"
-import { Api, ApiEndpoint, ApiGroup } from "effect-http"
+import { Api } from "effect-http"
+import { accountsApiGroup } from "./Api/Accounts.js"
 
-const groups = ApiGroup.make("Groups").pipe(
-  ApiGroup.addEndpoint(
-    ApiEndpoint.post("createGroup", "/groups").pipe(
-      ApiEndpoint.setRequestBody(
-        Schema.Struct({
-          name: Schema.String,
-        }),
-      ),
-    ),
-  ),
-)
-
-Api.make().pipe(Api.addGroup(groups))
+export const api = Api.make().pipe(Api.addGroup(accountsApiGroup))
+export type Api = typeof api

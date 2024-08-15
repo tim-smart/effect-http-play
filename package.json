@@ -4,26 +4,30 @@
   "type": "module",
   "description": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx --env-file=.env --watch src/main.ts"
   },
   "keywords": [],
   "author": "",
   "packageManager": "pnpm@9.7.0",
   "devDependencies": {
     "@effect/language-service": "^0.1.0",
+    "@types/node": "^22.3.0",
+    "@types/uuid": "^10.0.0",
     "prettier": "^3.3.3",
     "tsup": "^8.2.4",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@effect/experimental": "https://pkg.pr.new/Effect-TS/effect/@effect/experimental@f5c38ac",
+    "@effect/experimental": "https://pkg.pr.new/Effect-TS/effect/@effect/experimental@7c4eb43",
     "@effect/platform": "^0.61.8",
     "@effect/platform-node": "^0.56.9",
     "@effect/schema": "^0.70.4",
-    "@effect/sql": "https://pkg.pr.new/Effect-TS/effect/@effect/sql@f5c38ac",
+    "@effect/sql": "https://pkg.pr.new/Effect-TS/effect/@effect/sql@7c4eb43",
     "@effect/sql-sqlite-node": "^0.8.7",
     "effect": "^3.6.3",
-    "effect-http": "^0.77.4"
+    "effect-http": "^0.77.4",
+    "effect-http-node": "^0.17.7",
+    "uuid": "^10.0.0"
   }
 }

@@ -7,6 +7,9 @@ export class Person extends Model.Class<Person>("Person")({
   id: Model.Generated(PersonId),
   firstName: Schema.NonEmptyTrimmedString,
   lastName: Schema.NonEmptyTrimmedString,
+  dateOfBirth: Model.DateTimeFromDate.pipe(
+    Schema.optionalWith({ as: "Option" }),
+  ),
   createdAt: Model.DateTimeInsertFromDate,
   updatedAt: Model.DateTimeUpdateFromDate,
 }) {}
