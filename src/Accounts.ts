@@ -1,11 +1,13 @@
 import { SqlClient } from "@effect/sql"
 import { AccountsRepo } from "./Accounts/AccountsRepo.js"
 import { UsersRepo } from "./Accounts/UsersRepo.js"
-import { ApiKey, User } from "./Domain/User.js"
+import { User, UserId } from "./Domain/User.js"
 import { Account } from "./Domain/Account.js"
-import { Effect, Layer } from "effect"
+import { Effect, Layer, pipe } from "effect"
 import { Uuid } from "./Uuid.js"
 import { SqlLive } from "./Sql.js"
+import { AccessToken } from "./Domain/AccessToken.js"
+import { policyRequire } from "./Domain/Policy.js"
 
 const make = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient
@@ -23,18 +25,53 @@ const make = Effect.gen(function* () {
           User.insert.make({
             ...user,
             accountId: account.id,
-            apiKey: ApiKey.make(apiKey),
+            apiKey: AccessToken.make(apiKey),
           }),
         ),
       ),
       sql.withTransaction,
       Effect.orDie,
       Effect.withSpan("Accounts.createUser", { attributes: { user } }),
+      policyRequire("User", "create"),
     )
 
-  const findUserByApiKey = userRepo.findByApiKey
+  const updateUser = (id: UserId, user: Partial<typeof User.jsonUpdate.Type>) =>
+    userRepo.findById(id).pipe(
+      Effect.flatten,
+      Effect.andThen((previous) =>
+        userRepo.update(
+          User.update.make({
+            ...previous,
+            ...user,
+            id,
+          }),
+        ),
+      ),
+      sql.withTransaction,
+      Effect.catchTag("SqlError", (err) => Effect.die(err)),
+      Effect.withSpan("Accounts.updateUser", { attributes: { id, user } }),
+      policyRequire("User", "update"),
+    )
 
-  return { createUser, findUserByApiKey } as const
+  const findUserByApiKey = (apiKey: AccessToken) =>
+    pipe(
+      userRepo.findByApiKey(apiKey),
+      Effect.withSpan("Accounts.findUserByApiKey", {
+        attributes: { apiKey },
+      }),
+      policyRequire("User", "read"),
+    )
+
+  const findUserById = (id: UserId) =>
+    pipe(
+      userRepo.findById(id),
+      Effect.withSpan("Accounts.findUserById", {
+        attributes: { id },
+      }),
+      policyRequire("User", "read"),
+    )
+
+  return { createUser, updateUser, findUserByApiKey, findUserById } as const
 })
 
 export class Accounts extends Effect.Tag("Accounts")<

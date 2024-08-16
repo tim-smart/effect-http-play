@@ -3,22 +3,44 @@ import { Effect } from "effect"
 
 export default Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient
-  yield* sql`
-    CREATE TABLE accounts (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
-    )
-  `
-  yield* sql`
-    CREATE TABLE users (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      apiKey TEXT UNIQUE NOT NULL,
-      accountId INTEGER NOT NULL,
-      email TEXT UNIQUE NOT NULL,
-      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-      FOREIGN KEY (accountId) REFERENCES accounts(id)
-    )
-  `
+  yield* sql.onDialectOrElse({
+    pg: () => sql`
+      CREATE TABLE accounts (
+        id SERIAL PRIMARY KEY,
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `,
+    orElse: () => sql`
+      CREATE TABLE accounts (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+      )
+    `,
+  })
+  yield* sql.onDialectOrElse({
+    pg: () => sql`
+      CREATE TABLE users (
+        id SERIAL PRIMARY KEY,
+        apiKey TEXT UNIQUE NOT NULL,
+        accountId INTEGER NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        FOREIGN KEY (accountId) REFERENCES accounts(id)
+      )
+    `,
+    orElse: () => sql`
+      CREATE TABLE users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        apiKey TEXT UNIQUE NOT NULL,
+        accountId INTEGER NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        FOREIGN KEY (accountId) REFERENCES accounts(id)
+      )
+    `,
+  })
 })
