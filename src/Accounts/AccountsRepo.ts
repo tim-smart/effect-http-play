@@ -2,6 +2,7 @@ import { SqlClient, SqlResolver, SqlSchema } from "@effect/sql"
 import { Context, Effect, Layer, pipe } from "effect"
 import { Account, AccountId } from "../Domain/Account.js"
 import { SqlLive } from "../Sql.js"
+import { makeTestLayer } from "../lib/Layer.js"
 
 export const make = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient
@@ -47,4 +48,5 @@ export class AccountsRepo extends Context.Tag("Accounts/AccountsRepo")<
   Effect.Effect.Success<typeof make>
 >() {
   static Live = Layer.effect(AccountsRepo, make).pipe(Layer.provide(SqlLive))
+  static Test = makeTestLayer(AccountsRepo)({})
 }

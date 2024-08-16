@@ -5,8 +5,8 @@ import { User, UserId } from "./Domain/User.js"
 import { Account } from "./Domain/Account.js"
 import { Effect, Layer, pipe } from "effect"
 import { Uuid } from "./Uuid.js"
-import { SqlLive } from "./Sql.js"
-import { AccessToken } from "./Domain/AccessToken.js"
+import { SqlLive, SqlTest } from "./Sql.js"
+import { AccessToken, accessTokenFromString } from "./Domain/AccessToken.js"
 import { policyRequire } from "./Domain/Policy.js"
 
 const make = Effect.gen(function* () {
@@ -19,13 +19,15 @@ const make = Effect.gen(function* () {
     accountRepo.insert(Account.insert.make({})).pipe(
       Effect.tap((account) => Effect.annotateCurrentSpan("account", account)),
       Effect.bindTo("account"),
-      Effect.bind("apiKey", () => uuid.generateRedacted),
+      Effect.bind("apiKey", () =>
+        uuid.generate.pipe(Effect.map(accessTokenFromString)),
+      ),
       Effect.andThen(({ account, apiKey }) =>
         userRepo.insert(
           User.insert.make({
             ...user,
             accountId: account.id,
-            apiKey: AccessToken.make(apiKey),
+            apiKey,
           }),
         ),
       ),
@@ -78,10 +80,17 @@ export class Accounts extends Effect.Tag("Accounts")<
   Accounts,
   Effect.Effect.Success<typeof make>
 >() {
-  static Live = Layer.effect(Accounts, make).pipe(
+  static layer = Layer.effect(Accounts, make)
+
+  static Live = this.layer.pipe(
     Layer.provide(SqlLive),
     Layer.provide(AccountsRepo.Live),
     Layer.provide(UsersRepo.Live),
     Layer.provide(Uuid.Live),
+  )
+
+  static Test = this.layer.pipe(
+    Layer.provideMerge(SqlTest),
+    Layer.provideMerge(Uuid.Test),
   )
 }
