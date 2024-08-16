@@ -8,7 +8,6 @@ import { NodeHttpServer } from "@effect/platform-node"
 import { createServer } from "http"
 import { policyUse, withSystemActor } from "./Domain/Policy.js"
 import { AccountsPolicy } from "./Accounts/Policy.js"
-import { CurrentUser } from "./Domain/User.js"
 
 export const HttpLive = RouterBuilder.make(api).pipe(
   RouterBuilder.handle("createUser", ({ body }) =>
@@ -16,16 +15,14 @@ export const HttpLive = RouterBuilder.make(api).pipe(
   ),
   RouterBuilder.handle("updateUser", ({ body, path }, user) =>
     Accounts.updateUser(path.id, body).pipe(
-      policyUse(AccountsPolicy.canUpdate(path.id)),
-      Effect.provideService(CurrentUser, user),
+      policyUse(user, AccountsPolicy.canUpdate(path.id)),
     ),
   ),
   RouterBuilder.handle("getUserMe", (_, user) => Effect.succeed(user)),
-  RouterBuilder.handle("getUser", (_, actor) =>
+  RouterBuilder.handle("getUser", (_, user) =>
     Accounts.findUserById(_.path.id).pipe(
       Effect.flatten,
-      policyUse(AccountsPolicy.canRead(_.path.id)),
-      Effect.provideService(CurrentUser, actor),
+      policyUse(user, AccountsPolicy.canRead(_.path.id)),
     ),
   ),
   RouterBuilder.build,
