@@ -29,7 +29,6 @@ export interface AuthorizedActor<Entity extends string, Action extends string>
     readonly _Entity: Entity
     readonly _Action: Action
   }
-  readonly id: UserId
 }
 
 export const authorizedActor = (user: User): AuthorizedActor<any, any> =>
