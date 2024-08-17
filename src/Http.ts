@@ -8,6 +8,8 @@ import { NodeHttpServer } from "@effect/platform-node"
 import { createServer } from "http"
 import { policyUse, withSystemActor } from "./Domain/Policy.js"
 import { AccountsPolicy } from "./Accounts/Policy.js"
+import { Groups } from "./Groups.js"
+import { GroupsPolicy } from "./Groups/Policy.js"
 
 export const HttpLive = RouterBuilder.make(api).pipe(
   RouterBuilder.handle("createUser", ({ body }) =>
@@ -27,6 +29,9 @@ export const HttpLive = RouterBuilder.make(api).pipe(
       policyUse(user, AccountsPolicy.canRead(_.path.id)),
     ),
   ),
+  RouterBuilder.handle("createGroup", ({ body }, user) =>
+    Groups.create(body).pipe(policyUse(user, GroupsPolicy.canCreate(body))),
+  ),
   RouterBuilder.build,
   HttpMiddleware.cors(),
   HttpServer.serve(HttpMiddleware.logger),
@@ -35,4 +40,6 @@ export const HttpLive = RouterBuilder.make(api).pipe(
   Layer.provide(NodeHttpServer.layer(createServer, { port: 3000 })),
   Layer.provide(Accounts.Live),
   Layer.provide(AccountsPolicy.Live),
+  Layer.provide(Groups.Live),
+  Layer.provide(GroupsPolicy.Live),
 )

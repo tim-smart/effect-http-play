@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "composite": true,
+    "incremental": true,
     "outDir": "dist",
     "resolveJsonModule": true,
     "skipLibCheck": true,

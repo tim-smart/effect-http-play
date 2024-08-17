@@ -2,10 +2,13 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "tsBuildInfoFile": "./tsconfig.src.tsbuildinfo",
+    "rootDir": "test",
+    "baseUrl": "./",
+    "tsBuildInfoFile": "./tsconfig.test.tsbuildinfo",
     "paths": {
       "app/*": ["src/*.js"]
     }
   },
-  "include": ["test/**/*"]
+  "include": ["test/**/*"],
+  "references": [{ "path": "./tsconfig.src.json" }]
 }
