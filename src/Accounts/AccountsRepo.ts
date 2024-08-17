@@ -1,4 +1,4 @@
-import { SqlClient, SqlResolver, SqlSchema } from "@effect/sql"
+import { SqlClient, SqlSchema } from "@effect/sql"
 import { Context, Effect, Layer, pipe } from "effect"
 import { Account, AccountId } from "../Domain/Account.js"
 import { SqlLive } from "../Sql.js"
@@ -21,22 +21,16 @@ export const make = Effect.gen(function* () {
       Effect.withSpan("AccountsRepo.insert", { attributes: { account } }),
     )
 
-  const findByIdResolver = yield* SqlResolver.findById(
-    "Accounts/AccountsRepo/findById",
-    {
-      Id: AccountId,
-      Result: Account,
-      ResultId(result) {
-        return result.id
-      },
-      execute(requests) {
-        return sql`select * from accounts where ${sql.in("id", requests)}`
-      },
+  const findByIdSchema = SqlSchema.findOne({
+    Request: AccountId,
+    Result: Account,
+    execute(id) {
+      return sql`select * from accounts where id = ${id}`
     },
-  )
+  })
   const findById = (id: typeof AccountId.Type) =>
     pipe(
-      findByIdResolver.execute(id),
+      findByIdSchema(id),
       Effect.withSpan("AccountsRepo.findById", { attributes: { id } }),
     )
 

@@ -1,5 +1,5 @@
-import { SqlClient, SqlResolver, SqlSchema } from "@effect/sql"
-import { Effect, Layer, pipe, Redacted } from "effect"
+import { SqlClient, SqlSchema } from "@effect/sql"
+import { Effect, Layer, pipe } from "effect"
 import { User, UserId } from "../Domain/User.js"
 import { SqlLive } from "../Sql.js"
 import { AccessToken } from "../Domain/AccessToken.js"
@@ -34,36 +34,26 @@ export const make = Effect.gen(function* () {
       Effect.withSpan("UsersRepo.update", { attributes: { user } }),
     )
 
-  const findByIdResolver = yield* SqlResolver.findById(
-    "Accounts/UsersRepo/findById",
-    {
-      Id: UserId,
-      Result: User,
-      ResultId: (result) => result.id,
-      execute: (requests) =>
-        sql`select * from users where ${sql.in("id", requests)}`,
-    },
-  )
+  const findByIdSchema = SqlSchema.findOne({
+    Request: UserId,
+    Result: User,
+    execute: (id) => sql`select * from users where id = ${id}`,
+  })
   const findById = (id: typeof UserId.Type) =>
     pipe(
-      findByIdResolver.execute(id),
+      findByIdSchema(id),
       Effect.orDie,
       Effect.withSpan("UsersRepo.findById", { attributes: { id } }),
     )
 
-  const findByApiKeyResolver = yield* SqlResolver.findById(
-    "Users/Users/findByApiKey",
-    {
-      Id: AccessToken,
-      Result: User,
-      ResultId: (result) => Redacted.value(result.apiKey),
-      execute: (requests) =>
-        sql`select * from users where ${sql.in("apiKey", requests)}`,
-    },
-  )
+  const findByApiKeySchema = SqlSchema.findOne({
+    Request: AccessToken,
+    Result: User,
+    execute: (key) => sql`select * from users where apiKey = ${key}`,
+  })
   const findByApiKey = (apiKey: AccessToken) =>
     pipe(
-      findByApiKeyResolver.execute(apiKey),
+      findByApiKeySchema(apiKey),
       Effect.orDie,
       Effect.withSpan("UsersRepo.findByApiKey", { attributes: { apiKey } }),
     )
