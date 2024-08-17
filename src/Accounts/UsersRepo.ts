@@ -25,7 +25,7 @@ export const make = Effect.gen(function* () {
     Request: User.update,
     Result: User,
     execute: (user) =>
-      sql`update users set ${sql.update(user, ["id"]).returning("*")} where id = ${user.id}`,
+      sql`update users set ${sql.update(user, ["id"])} where id = ${user.id} returning *`,
   })
 
   const update = (user: typeof User.update.Type) =>

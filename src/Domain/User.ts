@@ -3,7 +3,6 @@ import { Model } from "@effect/sql"
 import { Account, AccountId } from "./Account.js"
 import { Email } from "./Email.js"
 import { Context } from "effect"
-import { VariantSchema } from "@effect/experimental"
 import { AccessToken } from "./AccessToken.js"
 
 export const UserId = Schema.Number.pipe(Schema.brand("UserId"))
@@ -25,7 +24,7 @@ export class User extends Model.Class<User>("User")({
 export class UserWithSensitive extends Model.Class<UserWithSensitive>(
   "UserWithSensitive",
 )({
-  ...User[VariantSchema.TypeId],
+  ...Model.fields(User),
   accessToken: AccessToken,
   account: Account,
 }) {}

@@ -16,7 +16,7 @@ export class Unauthorized extends Schema.TaggedError<Unauthorized>()(
   }
 
   get message() {
-    return `Actor (${this.actorId}) is not authorized to perform action ${`"${this.action}"`} on entity ${`"${this.entity}"`}`
+    return `Actor (${this.actorId}) is not authorized to perform action "${this.action}" on entity "${this.entity}"`
   }
 }
 

@@ -3,12 +3,12 @@ import { NodeSwaggerFiles } from "effect-http-node"
 import { api } from "./Api.js"
 import { Accounts } from "./Accounts.js"
 import { HttpMiddleware, HttpServer } from "@effect/platform"
-import { Effect, Layer } from "effect"
+import { Effect, Layer, pipe } from "effect"
 import { NodeHttpServer } from "@effect/platform-node"
 import { createServer } from "http"
 import { policyUse, withSystemActor } from "./Domain/Policy.js"
 import { AccountsPolicy } from "./Accounts/Policy.js"
-import { Groups } from "./Groups.js"
+import { Groups, withGroup } from "./Groups.js"
 import { GroupsPolicy } from "./Groups/Policy.js"
 
 export const HttpLive = RouterBuilder.make(api).pipe(
@@ -30,7 +30,17 @@ export const HttpLive = RouterBuilder.make(api).pipe(
     ),
   ),
   RouterBuilder.handle("createGroup", ({ body }, user) =>
-    Groups.create(body).pipe(policyUse(user, GroupsPolicy.canCreate(body))),
+    Groups.create(body, user.accountId).pipe(
+      policyUse(user, GroupsPolicy.canCreate(body)),
+    ),
+  ),
+  RouterBuilder.handle("updateGroup", ({ body, path }, user) =>
+    withGroup(path.id, (group, groups) =>
+      pipe(
+        groups.update(group, body),
+        policyUse(user, GroupsPolicy.canUpdate(group)),
+      ),
+    ),
   ),
   RouterBuilder.build,
   HttpMiddleware.cors(),

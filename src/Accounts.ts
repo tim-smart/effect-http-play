@@ -53,6 +53,7 @@ const make = Effect.gen(function* () {
             ...previous,
             ...user,
             id,
+            updatedAt: undefined,
           }),
         ),
       ),
