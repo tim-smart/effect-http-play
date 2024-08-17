@@ -9,7 +9,12 @@ const make = Effect.gen(function* () {
   const canRead = (toRead: UserId) =>
     policy("User", "read", (actor) => Effect.succeed(actor.id === toRead))
 
-  return { canUpdate, canRead } as const
+  const canReadSensitive = (toRead: UserId) =>
+    policy("User", "readSensitive", (actor) =>
+      Effect.succeed(actor.id === toRead),
+    )
+
+  return { canUpdate, canRead, canReadSensitive } as const
 })
 
 export class AccountsPolicy extends Effect.Tag("Accounts/Policy")<

@@ -23,9 +23,9 @@ export default Effect.gen(function* () {
     pg: () => sql`
       CREATE TABLE users (
         id SERIAL PRIMARY KEY,
-        apiKey TEXT UNIQUE NOT NULL,
         accountId INTEGER NOT NULL,
         email TEXT UNIQUE NOT NULL,
+        accessToken VARCHAR(255) UNIQUE NOT NULL,
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
         FOREIGN KEY (accountId) REFERENCES accounts(id)
@@ -34,9 +34,9 @@ export default Effect.gen(function* () {
     orElse: () => sql`
       CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        apiKey TEXT UNIQUE NOT NULL,
         accountId INTEGER NOT NULL,
         email TEXT UNIQUE NOT NULL,
+        accessToken VARCHAR(255) UNIQUE NOT NULL,
         createdAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
         updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
         FOREIGN KEY (accountId) REFERENCES accounts(id)

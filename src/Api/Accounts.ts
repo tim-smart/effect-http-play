@@ -1,35 +1,12 @@
-import { ApiEndpoint, ApiGroup, Security } from "effect-http"
-import { User, UserId, UserIdFromString } from "../Domain/User.js"
-import { Effect, Option } from "effect"
-import { Accounts } from "../Accounts.js"
-import { accessTokenFromString } from "../Domain/AccessToken.js"
 import { Schema } from "@effect/schema"
-import { Unauthorized, withSystemActor } from "../Domain/Policy.js"
-
-const security = Security.bearer().pipe(
-  Security.map(accessTokenFromString),
-  Security.mapEffect((apiKey) =>
-    Accounts.findUserByApiKey(apiKey).pipe(
-      withSystemActor,
-      Effect.flatMap(
-        Option.match({
-          onNone: () =>
-            new Unauthorized({
-              actorId: UserId.make(-1),
-              entity: "Http",
-              action: "login",
-            }),
-          onSome: Effect.succeed,
-        }),
-      ),
-    ),
-  ),
-)
+import { ApiEndpoint, ApiGroup } from "effect-http"
+import { User, UserIdFromString, UserWithSensitive } from "../Domain/User.js"
+import { security } from "./Security.js"
 
 export const accountsApiGroup = ApiGroup.make("Accounts").pipe(
   ApiGroup.addEndpoint(
     ApiEndpoint.post("createUser", "/users").pipe(
-      ApiEndpoint.setResponseBody(User.json),
+      ApiEndpoint.setResponseBody(UserWithSensitive.json),
       ApiEndpoint.setRequestBody(User.jsonCreate),
     ),
   ),
@@ -45,7 +22,7 @@ export const accountsApiGroup = ApiGroup.make("Accounts").pipe(
   ),
   ApiGroup.addEndpoint(
     ApiEndpoint.get("getUserMe", "/users/me").pipe(
-      ApiEndpoint.setResponseBody(User.json),
+      ApiEndpoint.setResponseBody(UserWithSensitive.json),
       ApiEndpoint.setSecurity(security),
     ),
   ),

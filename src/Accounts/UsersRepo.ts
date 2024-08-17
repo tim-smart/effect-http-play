@@ -46,19 +46,19 @@ export const make = Effect.gen(function* () {
       Effect.withSpan("UsersRepo.findById", { attributes: { id } }),
     )
 
-  const findByApiKeySchema = SqlSchema.findOne({
+  const findByAccessTokenSchema = SqlSchema.findOne({
     Request: AccessToken,
     Result: User,
-    execute: (key) => sql`select * from users where apiKey = ${key}`,
+    execute: (key) => sql`select * from users where accessToken = ${key}`,
   })
-  const findByApiKey = (apiKey: AccessToken) =>
+  const findByAccessToken = (apiKey: AccessToken) =>
     pipe(
-      findByApiKeySchema(apiKey),
+      findByAccessTokenSchema(apiKey),
       Effect.orDie,
-      Effect.withSpan("UsersRepo.findByApiKey", { attributes: { apiKey } }),
+      Effect.withSpan("UsersRepo.findByAccessToken"),
     )
 
-  return { insert, update, findById, findByApiKey } as const
+  return { insert, update, findById, findByAccessToken } as const
 })
 
 export class UsersRepo extends Effect.Tag("Accounts/UsersRepo")<

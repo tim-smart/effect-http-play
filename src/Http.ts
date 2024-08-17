@@ -18,7 +18,9 @@ export const HttpLive = RouterBuilder.make(api).pipe(
       policyUse(user, AccountsPolicy.canUpdate(path.id)),
     ),
   ),
-  RouterBuilder.handle("getUserMe", (_, user) => Effect.succeed(user)),
+  RouterBuilder.handle("getUserMe", (_, user) =>
+    Accounts.embellishUser(user).pipe(withSystemActor),
+  ),
   RouterBuilder.handle("getUser", (_, user) =>
     Accounts.findUserById(_.path.id).pipe(
       Effect.flatten,

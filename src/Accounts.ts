@@ -1,13 +1,13 @@
 import { SqlClient } from "@effect/sql"
+import { Effect, Layer, pipe } from "effect"
 import { AccountsRepo } from "./Accounts/AccountsRepo.js"
 import { UsersRepo } from "./Accounts/UsersRepo.js"
-import { User, UserId } from "./Domain/User.js"
-import { Account } from "./Domain/Account.js"
-import { Effect, Layer, pipe } from "effect"
-import { Uuid } from "./Uuid.js"
-import { SqlLive, SqlTest } from "./Sql.js"
 import { AccessToken, accessTokenFromString } from "./Domain/AccessToken.js"
+import { Account } from "./Domain/Account.js"
 import { policyRequire } from "./Domain/Policy.js"
+import { User, UserId, UserWithSensitive } from "./Domain/User.js"
+import { SqlLive, SqlTest } from "./Sql.js"
+import { Uuid } from "./Uuid.js"
 
 const make = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient
@@ -19,17 +19,24 @@ const make = Effect.gen(function* () {
     accountRepo.insert(Account.insert.make({})).pipe(
       Effect.tap((account) => Effect.annotateCurrentSpan("account", account)),
       Effect.bindTo("account"),
-      Effect.bind("apiKey", () =>
+      Effect.bind("accessToken", () =>
         uuid.generate.pipe(Effect.map(accessTokenFromString)),
       ),
-      Effect.andThen(({ account, apiKey }) =>
+      Effect.bind("user", ({ account, accessToken }) =>
         userRepo.insert(
           User.insert.make({
             ...user,
             accountId: account.id,
-            apiKey,
+            accessToken,
           }),
         ),
+      ),
+      Effect.map(
+        ({ user, account }) =>
+          new UserWithSensitive({
+            ...user,
+            account,
+          }),
       ),
       sql.withTransaction,
       Effect.orDie,
@@ -55,12 +62,10 @@ const make = Effect.gen(function* () {
       policyRequire("User", "update"),
     )
 
-  const findUserByApiKey = (apiKey: AccessToken) =>
+  const findUserByAccessToken = (apiKey: AccessToken) =>
     pipe(
-      userRepo.findByApiKey(apiKey),
-      Effect.withSpan("Accounts.findUserByApiKey", {
-        attributes: { apiKey },
-      }),
+      userRepo.findByAccessToken(apiKey),
+      Effect.withSpan("Accounts.findUserByAccessToken"),
       policyRequire("User", "read"),
     )
 
@@ -73,7 +78,25 @@ const make = Effect.gen(function* () {
       policyRequire("User", "read"),
     )
 
-  return { createUser, updateUser, findUserByApiKey, findUserById } as const
+  const embellishUser = (user: User) =>
+    pipe(
+      accountRepo.findById(user.accountId),
+      Effect.flatten,
+      Effect.map((account) => new UserWithSensitive({ ...user, account })),
+      Effect.orDie,
+      Effect.withSpan("Accounts.embellishUser", {
+        attributes: { id: user.id },
+      }),
+      policyRequire("User", "readSensitive"),
+    )
+
+  return {
+    createUser,
+    updateUser,
+    findUserByAccessToken,
+    findUserById,
+    embellishUser,
+  } as const
 })
 
 export class Accounts extends Effect.Tag("Accounts")<
