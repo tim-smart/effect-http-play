@@ -10,6 +10,8 @@ import { policyUse, withSystemActor } from "./Domain/Policy.js"
 import { AccountsPolicy } from "./Accounts/Policy.js"
 import { Groups, withGroup } from "./Groups.js"
 import { GroupsPolicy } from "./Groups/Policy.js"
+import { People } from "./People.js"
+import { PeoplePolicy } from "./People/Policy.js"
 
 export const HttpLive = RouterBuilder.make(api).pipe(
   RouterBuilder.handle("createUser", ({ body }) =>
@@ -42,6 +44,13 @@ export const HttpLive = RouterBuilder.make(api).pipe(
       ),
     ),
   ),
+  RouterBuilder.handle("createPerson", ({ body, path }, user) =>
+    withGroup(path.groupId, (group) =>
+      People.create(path.groupId, body).pipe(
+        policyUse(user, PeoplePolicy.canCreate(group, body)),
+      ),
+    ),
+  ),
   RouterBuilder.build,
   HttpMiddleware.cors(),
   HttpServer.serve(HttpMiddleware.logger),
@@ -52,4 +61,6 @@ export const HttpLive = RouterBuilder.make(api).pipe(
   Layer.provide(AccountsPolicy.Live),
   Layer.provide(Groups.Live),
   Layer.provide(GroupsPolicy.Live),
+  Layer.provide(People.Live),
+  Layer.provide(PeoplePolicy.Live),
 )

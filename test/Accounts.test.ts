@@ -7,7 +7,7 @@ import { Email } from "app/Domain/Email"
 import { withSystemActor } from "app/Domain/Policy"
 import { User, UserId } from "app/Domain/User"
 import { makeTestLayer } from "app/lib/Layer"
-import { Effect, Layer, pipe, Redacted } from "effect"
+import { DateTime, Effect, Layer, pipe, Redacted } from "effect"
 
 describe("Accounts", () => {
   it.effect("createUser", () =>
@@ -27,15 +27,31 @@ describe("Accounts", () => {
           Layer.provide(
             makeTestLayer(AccountsRepo)({
               insert: (account) =>
-                Effect.succeed(
-                  new Account({ ...account, id: AccountId.make(123) }),
+                Effect.map(
+                  DateTime.now,
+                  (now) =>
+                    new Account({
+                      ...account,
+                      id: AccountId.make(123),
+                      createdAt: now,
+                      updatedAt: now,
+                    }),
                 ),
             }),
           ),
           Layer.provide(
             makeTestLayer(UsersRepo)({
               insert: (user) =>
-                Effect.succeed(new User({ ...user, id: UserId.make(1) })),
+                Effect.map(
+                  DateTime.now,
+                  (now) =>
+                    new User({
+                      ...user,
+                      id: UserId.make(1),
+                      createdAt: now,
+                      updatedAt: now,
+                    }),
+                ),
             }),
           ),
         ),

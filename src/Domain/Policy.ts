@@ -57,6 +57,15 @@ export const policy = <Entity extends string, Action extends string, E, R>(
     ),
   )
 
+export const policyCompose =
+  <Actor extends AuthorizedActor<any, any>, E, R>(
+    that: Effect.Effect<Actor, E, R>,
+  ) =>
+  <Actor2 extends AuthorizedActor<any, any>, E2, R2>(
+    self: Effect.Effect<Actor2, E2, R2>,
+  ): Effect.Effect<Actor | Actor2, E | Unauthorized, R | CurrentUser> =>
+    Effect.zipRight(self, that) as any
+
 export const policyUse =
   <Actor extends AuthorizedActor<any, any>, E, R>(
     user: User,

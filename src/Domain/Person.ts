@@ -6,12 +6,10 @@ export const PersonId = Schema.Number.pipe(Schema.brand("PersonId"))
 
 export class Person extends Model.Class<Person>("Person")({
   id: Model.Generated(PersonId),
-  groupId: Model.FieldExcept("update", "jsonUpdate")(GroupId),
+  groupId: Model.GeneratedByApp(GroupId),
   firstName: Schema.NonEmptyTrimmedString,
   lastName: Schema.NonEmptyTrimmedString,
-  dateOfBirth: Model.DateTimeFromDate.pipe(
-    Schema.optionalWith({ as: "Option" }),
-  ),
+  dateOfBirth: Model.FieldOption(Model.Date),
   createdAt: Model.DateTimeInsert,
   updatedAt: Model.DateTimeUpdate,
 }) {}

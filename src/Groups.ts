@@ -24,13 +24,11 @@ const make = Effect.gen(function* () {
     update: Partial<typeof Group.jsonUpdate.Type>,
   ) =>
     pipe(
-      repo.update(
-        Group.update.make({
-          ...group,
-          ...update,
-          updatedAt: undefined,
-        }),
-      ),
+      repo.update({
+        ...group,
+        ...update,
+        updatedAt: undefined,
+      }),
       Effect.withSpan("Groups.update", {
         attributes: { id: group.id, update },
       }),

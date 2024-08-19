@@ -1,50 +1,17 @@
-import { SqlClient, SqlSchema } from "@effect/sql"
+import { Model, SqlClient, SqlSchema } from "@effect/sql"
 import { Effect, Layer, pipe } from "effect"
-import { User, UserId } from "../Domain/User.js"
+import { User } from "../Domain/User.js"
 import { SqlLive } from "../Sql.js"
 import { AccessToken } from "../Domain/AccessToken.js"
 import { makeTestLayer } from "../lib/Layer.js"
 
 export const make = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient
-
-  const insertSchema = SqlSchema.single({
-    Request: User.insert,
-    Result: User,
-    execute: (users) =>
-      sql`insert into users ${sql.insert(users).returning("*")}`,
+  const repo = yield* Model.makeRepository(User, {
+    tableName: "users",
+    spanPrefix: "UsersRepo",
+    idColumn: "id",
   })
-
-  const insert = (user: typeof User.insert.Type) =>
-    insertSchema(user).pipe(
-      Effect.orDie,
-      Effect.withSpan("UsersRepo.insert", { attributes: { user } }),
-    )
-
-  const updateSchema = SqlSchema.single({
-    Request: User.update,
-    Result: User,
-    execute: (user) =>
-      sql`update users set ${sql.update(user, ["id"])} where id = ${user.id} returning *`,
-  })
-
-  const update = (user: typeof User.update.Type) =>
-    updateSchema(user).pipe(
-      Effect.orDie,
-      Effect.withSpan("UsersRepo.update", { attributes: { user } }),
-    )
-
-  const findByIdSchema = SqlSchema.findOne({
-    Request: UserId,
-    Result: User,
-    execute: (id) => sql`select * from users where id = ${id}`,
-  })
-  const findById = (id: typeof UserId.Type) =>
-    pipe(
-      findByIdSchema(id),
-      Effect.orDie,
-      Effect.withSpan("UsersRepo.findById", { attributes: { id } }),
-    )
 
   const findByAccessTokenSchema = SqlSchema.findOne({
     Request: AccessToken,
@@ -58,7 +25,7 @@ export const make = Effect.gen(function* () {
       Effect.withSpan("UsersRepo.findByAccessToken"),
     )
 
-  return { insert, update, findById, findByAccessToken } as const
+  return { ...repo, findByAccessToken } as const
 })
 
 export class UsersRepo extends Effect.Tag("Accounts/UsersRepo")<

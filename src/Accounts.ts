@@ -48,14 +48,12 @@ const make = Effect.gen(function* () {
     userRepo.findById(id).pipe(
       Effect.flatten,
       Effect.andThen((previous) =>
-        userRepo.update(
-          User.update.make({
-            ...previous,
-            ...user,
-            id,
-            updatedAt: undefined,
-          }),
-        ),
+        userRepo.update({
+          ...previous,
+          ...user,
+          id,
+          updatedAt: undefined,
+        }),
       ),
       sql.withTransaction,
       Effect.catchTag("SqlError", (err) => Effect.die(err)),
