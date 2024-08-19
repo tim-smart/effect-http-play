@@ -3,9 +3,12 @@ import { GroupsRepo } from "./Groups/Repo.js"
 import { AccountId } from "./Domain/Account.js"
 import { Group, GroupId } from "./Domain/Group.js"
 import { policyRequire } from "./Domain/Policy.js"
+import { SqlClient } from "@effect/sql"
+import { SqlLive } from "./Sql.js"
 
 const make = Effect.gen(function* () {
   const repo = yield* GroupsRepo
+  const sql = yield* SqlClient.SqlClient
 
   const create = (group: typeof Group.jsonCreate.Type, ownerId: AccountId) =>
     pipe(
@@ -50,6 +53,8 @@ const make = Effect.gen(function* () {
       repo.findById(id),
       Effect.flatten,
       Effect.flatMap(f),
+      sql.withTransaction,
+      Effect.catchTag("SqlError", (err) => Effect.die(err)),
       Effect.withSpan("Groups.with", { attributes: { id } }),
     )
 
@@ -61,7 +66,10 @@ export class Groups extends Effect.Tag("Groups")<
   Effect.Effect.Success<typeof make>
 >() {
   static layer = Layer.effect(Groups, make)
-  static Live = this.layer.pipe(Layer.provide(GroupsRepo.Live))
+  static Live = this.layer.pipe(
+    Layer.provide(SqlLive),
+    Layer.provide(GroupsRepo.Live),
+  )
 }
 
 export const withGroup = <A, E, R>(
