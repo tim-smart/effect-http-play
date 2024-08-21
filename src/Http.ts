@@ -32,7 +32,7 @@ export const HttpLive = RouterBuilder.make(api).pipe(
     ),
   ),
   RouterBuilder.handle("createGroup", ({ body }, user) =>
-    Groups.create(body, user.accountId).pipe(
+    Groups.create(user.accountId, body).pipe(
       policyUse(user, GroupsPolicy.canCreate(body)),
     ),
   ),

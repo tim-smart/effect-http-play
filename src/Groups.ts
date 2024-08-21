@@ -10,7 +10,7 @@ const make = Effect.gen(function* () {
   const repo = yield* GroupsRepo
   const sql = yield* SqlClient.SqlClient
 
-  const create = (group: typeof Group.jsonCreate.Type, ownerId: AccountId) =>
+  const create = (ownerId: AccountId, group: typeof Group.jsonCreate.Type) =>
     pipe(
       repo.insert(
         Group.insert.make({

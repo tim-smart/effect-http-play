@@ -17,6 +17,3 @@ export class Group extends Model.Class<Group>("Group")({
   updatedAt: Model.DateTimeUpdate,
 }) {}
 
-export class GroupJson extends Schema.Class<GroupJson>("GroupJson")(
-  Group.json,
-) {}

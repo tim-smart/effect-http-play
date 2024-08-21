@@ -3,6 +3,7 @@ import { Model } from "@effect/sql"
 import { GroupId } from "./Group.js"
 
 export const PersonId = Schema.Number.pipe(Schema.brand("PersonId"))
+export type PersonId = typeof PersonId.Type
 
 export class Person extends Model.Class<Person>("Person")({
   id: Model.Generated(PersonId),
