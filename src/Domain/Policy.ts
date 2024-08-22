@@ -68,16 +68,12 @@ export const policyCompose =
 
 export const policyUse =
   <Actor extends AuthorizedActor<any, any>, E, R>(
-    user: User,
     policy: Effect.Effect<Actor, E, R>,
   ) =>
   <A, E2, R2>(
     effect: Effect.Effect<A, E2, R2>,
-  ): Effect.Effect<A, E | E2, Exclude<Exclude<R2, Actor> | R, CurrentUser>> =>
-    policy.pipe(
-      Effect.zipRight(effect),
-      Effect.provideService(CurrentUser, user),
-    ) as any
+  ): Effect.Effect<A, E | E2, Exclude<R2, Actor> | R> =>
+    policy.pipe(Effect.zipRight(effect)) as any
 
 export const policyRequire =
   <Entity extends string, Action extends string>(

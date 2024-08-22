@@ -1,11 +1,11 @@
 import { SqlClient } from "@effect/sql"
-import { Effect, Layer, pipe } from "effect"
+import { Effect, Layer, Option, pipe } from "effect"
 import { AccountsRepo } from "./Accounts/AccountsRepo.js"
 import { UsersRepo } from "./Accounts/UsersRepo.js"
 import { AccessToken, accessTokenFromString } from "./Domain/AccessToken.js"
 import { Account } from "./Domain/Account.js"
 import { policyRequire } from "./Domain/Policy.js"
-import { User, UserId, UserWithSensitive } from "./Domain/User.js"
+import { User, UserId, UserNotFound, UserWithSensitive } from "./Domain/User.js"
 import { SqlLive, SqlTest } from "./Sql.js"
 import { Uuid } from "./Uuid.js"
 
@@ -46,7 +46,12 @@ const make = Effect.gen(function* () {
 
   const updateUser = (id: UserId, user: Partial<typeof User.jsonUpdate.Type>) =>
     userRepo.findById(id).pipe(
-      Effect.flatten,
+      Effect.flatMap(
+        Option.match({
+          onNone: () => new UserNotFound({ id }),
+          onSome: Effect.succeed,
+        }),
+      ),
       Effect.andThen((previous) =>
         userRepo.update({
           ...previous,

@@ -1,6 +1,7 @@
 import { Schema } from "@effect/schema"
 import { Model } from "@effect/sql"
 import { AccountId } from "./Account.js"
+import { ApiEndpoint } from "@effect/platform"
 
 export const GroupId = Schema.Number.pipe(Schema.brand("GroupId"))
 export type GroupId = typeof GroupId.Type
@@ -17,3 +18,8 @@ export class Group extends Model.Class<Group>("Group")({
   updatedAt: Model.DateTimeUpdate,
 }) {}
 
+export class GroupNotFound extends Schema.TaggedError<GroupNotFound>()(
+  "GroupNotFound",
+  { id: GroupId },
+  { [ApiEndpoint.AnnotationStatus]: 404 },
+) {}

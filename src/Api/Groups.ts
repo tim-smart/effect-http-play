@@ -1,22 +1,23 @@
-import { ApiEndpoint, ApiGroup } from "effect-http"
-import { security } from "./Security.js"
-import { Group, GroupIdFromString } from "../Domain/Group.js"
+import { Group, GroupIdFromString, GroupNotFound } from "../Domain/Group.js"
 import { Schema } from "@effect/schema"
+import { ApiEndpoint, ApiGroup } from "@effect/platform"
+import { Unauthorized } from "../Domain/Policy.js"
 
-export const groupsApiGroup = ApiGroup.make("Groups").pipe(
-  ApiGroup.addEndpoint(
-    ApiEndpoint.post("createGroup", "/groups").pipe(
-      ApiEndpoint.setResponseBody(Group.json),
-      ApiEndpoint.setRequestBody(Group.jsonCreate),
-      ApiEndpoint.setSecurity(security),
+export const groupsApi = ApiGroup.make("groups").pipe(
+  ApiGroup.add(
+    ApiEndpoint.post("create", "/").pipe(
+      ApiEndpoint.setSuccess(Group.json),
+      ApiEndpoint.setPayload(Group.jsonCreate),
     ),
   ),
-  ApiGroup.addEndpoint(
-    ApiEndpoint.patch("updateGroup", "/groups/:id").pipe(
-      ApiEndpoint.setRequestPath(Schema.Struct({ id: GroupIdFromString })),
-      ApiEndpoint.setResponseBody(Group.json),
-      ApiEndpoint.setRequestBody(Group.jsonUpdate),
-      ApiEndpoint.setSecurity(security),
+  ApiGroup.add(
+    ApiEndpoint.patch("update", "/:id").pipe(
+      ApiEndpoint.setPathSchema(Schema.Struct({ id: GroupIdFromString })),
+      ApiEndpoint.setSuccess(Group.json),
+      ApiEndpoint.setPayload(Group.jsonUpdate),
+      ApiEndpoint.setError(GroupNotFound),
     ),
   ),
+  ApiGroup.addError(Unauthorized),
+  ApiGroup.prefix("/groups"),
 )

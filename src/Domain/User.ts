@@ -4,6 +4,7 @@ import { Account, AccountId } from "./Account.js"
 import { Email } from "./Email.js"
 import { Context } from "effect"
 import { AccessToken } from "./AccessToken.js"
+import { ApiEndpoint } from "@effect/platform"
 
 export const UserId = Schema.Number.pipe(Schema.brand("UserId"))
 export type UserId = typeof UserId.Type
@@ -33,3 +34,9 @@ export class CurrentUser extends Context.Tag("Domain/User/CurrentUser")<
   CurrentUser,
   User
 >() {}
+
+export class UserNotFound extends Schema.TaggedError<UserNotFound>()(
+  "UserNotFound",
+  { id: UserId },
+  { [ApiEndpoint.AnnotationStatus]: 404 },
+) {}

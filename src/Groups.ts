@@ -1,7 +1,7 @@
-import { Cause, Effect, Layer, pipe } from "effect"
+import { Cause, Effect, Layer, Option, pipe } from "effect"
 import { GroupsRepo } from "./Groups/Repo.js"
 import { AccountId } from "./Domain/Account.js"
-import { Group, GroupId } from "./Domain/Group.js"
+import { Group, GroupId, GroupNotFound } from "./Domain/Group.js"
 import { policyRequire } from "./Domain/Policy.js"
 import { SqlClient } from "@effect/sql"
 import { SqlLive } from "./Sql.js"
@@ -48,10 +48,15 @@ const make = Effect.gen(function* () {
   const with_ = <A, E, R>(
     id: GroupId,
     f: (group: Group) => Effect.Effect<A, E, R>,
-  ): Effect.Effect<A, E | Cause.NoSuchElementException, R> =>
+  ): Effect.Effect<A, E | GroupNotFound, R> =>
     pipe(
       repo.findById(id),
-      Effect.flatten,
+      Effect.flatMap(
+        Option.match({
+          onNone: () => new GroupNotFound({ id }),
+          onSome: Effect.succeed,
+        }),
+      ),
       Effect.flatMap(f),
       sql.withTransaction,
       Effect.catchTag("SqlError", (err) => Effect.die(err)),
