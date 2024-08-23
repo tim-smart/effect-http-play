@@ -2,7 +2,11 @@ import { SqlClient } from "@effect/sql"
 import { Effect, Layer, Option, pipe } from "effect"
 import { AccountsRepo } from "./Accounts/AccountsRepo.js"
 import { UsersRepo } from "./Accounts/UsersRepo.js"
-import { AccessToken, accessTokenFromString } from "./Domain/AccessToken.js"
+import {
+  AccessToken,
+  accessTokenFromRedacted,
+  accessTokenFromString,
+} from "./Domain/AccessToken.js"
 import { Account } from "./Domain/Account.js"
 import { policyRequire, Unauthorized } from "./Domain/Policy.js"
 import {
@@ -106,7 +110,7 @@ const make = Effect.gen(function* () {
     security,
     CurrentUser,
     (token) =>
-      userRepo.findByAccessToken(accessTokenFromString(token)).pipe(
+      userRepo.findByAccessToken(accessTokenFromRedacted(token)).pipe(
         Effect.flatMap(
           Option.match({
             onNone: () =>

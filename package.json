@@ -24,7 +24,7 @@
   "dependencies": {
     "@effect/experimental": "^0.23.4",
     "@effect/opentelemetry": "^0.35.5",
-    "@effect/platform": "https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8",
+    "@effect/platform": "https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c",
     "@effect/platform-node": "^0.57.2",
     "@effect/schema": "^0.71.1",
     "@effect/sql": "^0.9.4",

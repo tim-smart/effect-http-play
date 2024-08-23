@@ -10,25 +10,25 @@ importers:
     dependencies:
       '@effect/experimental':
         specifier: ^0.23.4
-        version: 0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0)
+        version: 0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0)
       '@effect/opentelemetry':
         specifier: ^0.35.5
         version: 0.35.5(@opentelemetry/api@1.9.0)(@opentelemetry/resources@1.25.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-metrics@1.25.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-base@1.25.1(@opentelemetry/api@1.9.0))(@opentelemetry/sdk-trace-node@1.25.1(@opentelemetry/api@1.9.0))(@opentelemetry/semantic-conventions@1.25.1)(effect@3.6.5)
       '@effect/platform':
-        specifier: https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8
-        version: https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
+        specifier: https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c
+        version: https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
       '@effect/platform-node':
         specifier: ^0.57.2
-        version: 0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)
+        version: 0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)
       '@effect/schema':
         specifier: ^0.71.1
         version: 0.71.1(effect@3.6.5)
       '@effect/sql':
         specifier: ^0.9.4
-        version: 0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
+        version: 0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
       '@effect/sql-sqlite-node':
         specifier: ^0.9.4
-        version: 0.9.4(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/sql@0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)
+        version: 0.9.4(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/sql@0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)
       '@opentelemetry/exporter-trace-otlp-http':
         specifier: ^0.52.1
         version: 0.52.1(@opentelemetry/api@1.9.0)
@@ -138,8 +138,8 @@ packages:
       '@effect/platform': ^0.62.2
       effect: ^3.6.5
 
-  '@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8':
-    resolution: {tarball: https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8}
+  '@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c':
+    resolution: {tarball: https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c}
     version: 0.62.2
     peerDependencies:
       '@effect/schema': ^0.71.1
@@ -1651,14 +1651,14 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0)':
+  '@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0)':
     dependencies:
-      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
+      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
       '@effect/schema': 0.71.1(effect@3.6.5)
       effect: 3.6.5
       msgpackr: 1.11.0
     optionalDependencies:
-      '@effect/platform-node': 0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)
+      '@effect/platform-node': 0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)
       ws: 8.18.0
 
   '@effect/language-service@0.1.0': {}
@@ -1674,17 +1674,17 @@ snapshots:
       '@opentelemetry/sdk-trace-base': 1.25.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.25.1(@opentelemetry/api@1.9.0)
 
-  '@effect/platform-node-shared@0.12.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)':
+  '@effect/platform-node-shared@0.12.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)':
     dependencies:
-      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
+      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
       '@parcel/watcher': 2.4.1
       effect: 3.6.5
       multipasta: 0.2.5
 
-  '@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)':
+  '@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)':
     dependencies:
-      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
-      '@effect/platform-node-shared': 0.12.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)
+      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
+      '@effect/platform-node-shared': 0.12.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)
       effect: 3.6.5
       mime: 3.0.0
       undici: 6.19.8
@@ -1693,7 +1693,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)':
+  '@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)':
     dependencies:
       '@effect/schema': 0.71.1(effect@3.6.5)
       effect: 3.6.5
@@ -1705,18 +1705,18 @@ snapshots:
       effect: 3.6.5
       fast-check: 3.21.0
 
-  '@effect/sql-sqlite-node@0.9.4(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/sql@0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)':
+  '@effect/sql-sqlite-node@0.9.4(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/sql@0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5)':
     dependencies:
-      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
-      '@effect/sql': 0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
+      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
+      '@effect/sql': 0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
       '@opentelemetry/semantic-conventions': 1.25.1
       better-sqlite3: 11.1.2
       effect: 3.6.5
 
-  '@effect/sql@0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)':
+  '@effect/sql@0.9.4(@effect/experimental@0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)':
     dependencies:
-      '@effect/experimental': 0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0)
-      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@9622fc8(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
+      '@effect/experimental': 0.23.4(@effect/platform-node@0.57.2(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(effect@3.6.5))(@effect/platform@https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5))(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)(ws@8.18.0)
+      '@effect/platform': https://pkg.pr.new/Effect-TS/effect/@effect/platform@498f23c(@effect/schema@0.71.1(effect@3.6.5))(effect@3.6.5)
       '@effect/schema': 0.71.1(effect@3.6.5)
       '@opentelemetry/semantic-conventions': 1.25.1
       effect: 3.6.5

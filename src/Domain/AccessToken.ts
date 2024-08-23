@@ -7,3 +7,7 @@ export type AccessToken = typeof AccessToken.Type
 
 export const accessTokenFromString = (token: string): AccessToken =>
   Redacted.make(AccessTokenString.make(token))
+
+export const accessTokenFromRedacted = (
+  token: Redacted.Redacted,
+): AccessToken => token as AccessToken
