@@ -11,30 +11,28 @@ import { Unauthorized } from "../Domain/Policy.js"
 export const accountsApi = ApiGroup.make("accounts").pipe(
   ApiGroup.add(
     ApiEndpoint.post("createUser", "/users").pipe(
-      ApiEndpoint.setSuccess(UserWithSensitive.json),
-      ApiEndpoint.setPayload(User.jsonCreate),
+      ApiEndpoint.success(UserWithSensitive.json),
+      ApiEndpoint.payload(User.jsonCreate),
     ),
   ),
   ApiGroup.add(
     ApiEndpoint.patch("updateUser", "/users/:id").pipe(
-      ApiEndpoint.setPathSchema(Schema.Struct({ id: UserIdFromString })),
-      ApiEndpoint.setSuccess(User.json),
-      ApiEndpoint.setError(UserNotFound),
-      ApiEndpoint.setPayload(
-        Schema.partialWith(User.jsonUpdate, { exact: true }),
-      ),
+      ApiEndpoint.path(Schema.Struct({ id: UserIdFromString })),
+      ApiEndpoint.success(User.json),
+      ApiEndpoint.error(UserNotFound),
+      ApiEndpoint.payload(Schema.partialWith(User.jsonUpdate, { exact: true })),
     ),
   ),
   ApiGroup.add(
     ApiEndpoint.get("getUserMe", "/users/me").pipe(
-      ApiEndpoint.setSuccess(UserWithSensitive.json),
+      ApiEndpoint.success(UserWithSensitive.json),
     ),
   ),
   ApiGroup.add(
     ApiEndpoint.get("getUser", "/users/:id").pipe(
-      ApiEndpoint.setPathSchema(Schema.Struct({ id: UserIdFromString })),
-      ApiEndpoint.setSuccess(User.json),
-      ApiEndpoint.setError(UserNotFound),
+      ApiEndpoint.path(Schema.Struct({ id: UserIdFromString })),
+      ApiEndpoint.success(User.json),
+      ApiEndpoint.error(UserNotFound),
     ),
   ),
   ApiGroup.addError(Unauthorized),

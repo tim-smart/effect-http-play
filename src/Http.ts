@@ -7,10 +7,7 @@ import { HttpAccountsLive } from "./Accounts/Http.js"
 import { HttpGroupsLive } from "./Groups/Http.js"
 import { HttpPeopleLive } from "./People/Http.js"
 
-export const HttpLive = ApiBuilder.serve(
-  api,
-  HttpServer.serve(HttpMiddleware.logger),
-).pipe(
+export const HttpLive = ApiBuilder.serve(api, HttpMiddleware.logger).pipe(
   HttpServer.withLogAddress,
   Layer.provide(HttpAccountsLive),
   Layer.provide(HttpGroupsLive),

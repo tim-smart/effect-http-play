@@ -121,16 +121,3 @@ export class Accounts extends Effect.Tag("Accounts")<
     Layer.provideMerge(Uuid.Test),
   )
 }
-
-Effect.Do.pipe(
-  Effect.bind("x", () => Effect.succeed(2)),
-  Effect.flatMap((value) =>
-    Effect.all(
-      {
-        a: Effect.succeed(value.x),
-        b: Effect.succeed("ops"),
-      },
-      { concurrency: "unbounded" },
-    ).pipe(Effect.map((result) => ({ ...value, ...result }))),
-  ),
-)

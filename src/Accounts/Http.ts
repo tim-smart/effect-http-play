@@ -1,17 +1,16 @@
 import { ApiBuilder } from "@effect/platform"
-import { api } from "../Api.js"
-import { Accounts } from "../Accounts.js"
-import { AccountsPolicy } from "./Policy.js"
 import { Effect, Layer, Option, pipe } from "effect"
+import { Accounts } from "../Accounts.js"
+import { api } from "../Api.js"
 import { policyUse, withSystemActor } from "../Domain/Policy.js"
 import { CurrentUser, UserNotFound } from "../Domain/User.js"
-import { makeSecurity } from "../Api/Security.js"
+import { AccountsPolicy } from "./Policy.js"
+import { securityMiddleware } from "../Http/Security.js"
 
 export const HttpAccountsLive = ApiBuilder.group(api, "accounts", (handlers) =>
   Effect.gen(function* () {
     const accounts = yield* Accounts
     const policy = yield* AccountsPolicy
-    const security = yield* makeSecurity
 
     return handlers.pipe(
       ApiBuilder.handle("updateUser", ({ payload, path }) =>
@@ -38,7 +37,7 @@ export const HttpAccountsLive = ApiBuilder.group(api, "accounts", (handlers) =>
           policyUse(policy.canRead(path.id)),
         ),
       ),
-      ApiBuilder.middleware(security),
+      yield* securityMiddleware,
       // unprotected
       ApiBuilder.handle("createUser", ({ payload }) =>
         withSystemActor(accounts.createUser(payload)),

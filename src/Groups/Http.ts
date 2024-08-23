@@ -1,18 +1,17 @@
 import { ApiBuilder } from "@effect/platform"
-import { api } from "../Api.js"
 import { Effect, Layer, pipe } from "effect"
+import { Accounts } from "../Accounts.js"
+import { api } from "../Api.js"
 import { policyUse } from "../Domain/Policy.js"
 import { CurrentUser } from "../Domain/User.js"
-import { makeSecurity } from "../Api/Security.js"
 import { Groups } from "../Groups.js"
+import { securityMiddleware } from "../Http/Security.js"
 import { GroupsPolicy } from "./Policy.js"
-import { Accounts } from "../Accounts.js"
 
 export const HttpGroupsLive = ApiBuilder.group(api, "groups", (handlers) =>
   Effect.gen(function* () {
     const groups = yield* Groups
     const policy = yield* GroupsPolicy
-    const security = yield* makeSecurity
 
     return handlers.pipe(
       ApiBuilder.handle("create", ({ payload }) =>
@@ -29,7 +28,7 @@ export const HttpGroupsLive = ApiBuilder.group(api, "groups", (handlers) =>
           ),
         ),
       ),
-      ApiBuilder.middleware(security),
+      yield* securityMiddleware,
     )
   }),
 ).pipe(

@@ -6,16 +6,16 @@ import { Unauthorized } from "../Domain/Policy.js"
 export const groupsApi = ApiGroup.make("groups").pipe(
   ApiGroup.add(
     ApiEndpoint.post("create", "/").pipe(
-      ApiEndpoint.setSuccess(Group.json),
-      ApiEndpoint.setPayload(Group.jsonCreate),
+      ApiEndpoint.success(Group.json),
+      ApiEndpoint.payload(Group.jsonCreate),
     ),
   ),
   ApiGroup.add(
     ApiEndpoint.patch("update", "/:id").pipe(
-      ApiEndpoint.setPathSchema(Schema.Struct({ id: GroupIdFromString })),
-      ApiEndpoint.setSuccess(Group.json),
-      ApiEndpoint.setPayload(Group.jsonUpdate),
-      ApiEndpoint.setError(GroupNotFound),
+      ApiEndpoint.path(Schema.Struct({ id: GroupIdFromString })),
+      ApiEndpoint.success(Group.json),
+      ApiEndpoint.payload(Group.jsonUpdate),
+      ApiEndpoint.error(GroupNotFound),
     ),
   ),
   ApiGroup.addError(Unauthorized),
