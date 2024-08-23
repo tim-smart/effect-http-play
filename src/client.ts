@@ -1,8 +1,8 @@
 import { ApiClient } from "@effect/platform"
+import { NodeHttpClient, NodeRuntime } from "@effect/platform-node"
 import { Effect } from "effect"
 import { api } from "./Api.js"
 import { Email } from "./Domain/Email.js"
-import { NodeHttpClient, NodeRuntime } from "@effect/platform-node"
 
 Effect.gen(function* () {
   const client = yield* ApiClient.make(api, {

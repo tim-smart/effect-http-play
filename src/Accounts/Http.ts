@@ -5,7 +5,6 @@ import { api } from "../Api.js"
 import { policyUse, withSystemActor } from "../Domain/Policy.js"
 import { CurrentUser, UserNotFound } from "../Domain/User.js"
 import { AccountsPolicy } from "./Policy.js"
-import { securityMiddleware } from "../Http/Security.js"
 
 export const HttpAccountsLive = ApiBuilder.group(api, "accounts", (handlers) =>
   Effect.gen(function* () {
@@ -37,7 +36,7 @@ export const HttpAccountsLive = ApiBuilder.group(api, "accounts", (handlers) =>
           policyUse(policy.canRead(path.id)),
         ),
       ),
-      yield* securityMiddleware,
+      accounts.httpSecurity,
       // unprotected
       ApiBuilder.handle("createUser", ({ payload }) =>
         withSystemActor(accounts.createUser(payload)),

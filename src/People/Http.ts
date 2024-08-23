@@ -2,7 +2,6 @@ import { ApiBuilder } from "@effect/platform"
 import { Effect, Layer, pipe } from "effect"
 import { Accounts } from "../Accounts.js"
 import { api } from "../Api.js"
-import { securityMiddleware } from "../Http/Security.js"
 import { policyUse } from "../Domain/Policy.js"
 import { Groups } from "../Groups.js"
 import { People } from "../People.js"
@@ -13,6 +12,7 @@ export const HttpPeopleLive = ApiBuilder.group(api, "people", (handlers) =>
     const groups = yield* Groups
     const people = yield* People
     const policy = yield* PeoplePolicy
+    const accounts = yield* Accounts
 
     return handlers.pipe(
       ApiBuilder.handle("create", ({ payload, path }) =>
@@ -23,7 +23,7 @@ export const HttpPeopleLive = ApiBuilder.group(api, "people", (handlers) =>
           ),
         ),
       ),
-      yield* securityMiddleware,
+      accounts.httpSecurity,
     )
   }),
 ).pipe(

@@ -5,13 +5,13 @@ import { api } from "../Api.js"
 import { policyUse } from "../Domain/Policy.js"
 import { CurrentUser } from "../Domain/User.js"
 import { Groups } from "../Groups.js"
-import { securityMiddleware } from "../Http/Security.js"
 import { GroupsPolicy } from "./Policy.js"
 
 export const HttpGroupsLive = ApiBuilder.group(api, "groups", (handlers) =>
   Effect.gen(function* () {
     const groups = yield* Groups
     const policy = yield* GroupsPolicy
+    const accounts = yield* Accounts
 
     return handlers.pipe(
       ApiBuilder.handle("create", ({ payload }) =>
@@ -28,7 +28,7 @@ export const HttpGroupsLive = ApiBuilder.group(api, "groups", (handlers) =>
           ),
         ),
       ),
-      yield* securityMiddleware,
+      accounts.httpSecurity,
     )
   }),
 ).pipe(

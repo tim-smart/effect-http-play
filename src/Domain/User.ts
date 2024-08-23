@@ -1,10 +1,10 @@
+import { ApiSchema } from "@effect/platform"
 import { Schema } from "@effect/schema"
 import { Model } from "@effect/sql"
+import { Context } from "effect"
+import { AccessToken } from "./AccessToken.js"
 import { Account, AccountId } from "./Account.js"
 import { Email } from "./Email.js"
-import { Cause, Context, Effect } from "effect"
-import { AccessToken } from "./AccessToken.js"
-import { ApiSchema } from "@effect/platform"
 
 export const UserId = Schema.Number.pipe(Schema.brand("UserId"))
 export type UserId = typeof UserId.Type

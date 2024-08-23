@@ -4,10 +4,18 @@ import { AccountsRepo } from "./Accounts/AccountsRepo.js"
 import { UsersRepo } from "./Accounts/UsersRepo.js"
 import { AccessToken, accessTokenFromString } from "./Domain/AccessToken.js"
 import { Account } from "./Domain/Account.js"
-import { policyRequire } from "./Domain/Policy.js"
-import { User, UserId, UserNotFound, UserWithSensitive } from "./Domain/User.js"
+import { policyRequire, Unauthorized } from "./Domain/Policy.js"
+import {
+  CurrentUser,
+  User,
+  UserId,
+  UserNotFound,
+  UserWithSensitive,
+} from "./Domain/User.js"
 import { SqlLive, SqlTest } from "./Sql.js"
 import { Uuid } from "./Uuid.js"
+import { ApiBuilder } from "@effect/platform"
+import { security } from "./Api/Security.js"
 
 const make = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient
@@ -94,12 +102,33 @@ const make = Effect.gen(function* () {
       policyRequire("User", "readSensitive"),
     )
 
+  const httpSecurity = ApiBuilder.middlewareSecurity(
+    security,
+    CurrentUser,
+    (token) =>
+      userRepo.findByAccessToken(accessTokenFromString(token)).pipe(
+        Effect.flatMap(
+          Option.match({
+            onNone: () =>
+              new Unauthorized({
+                actorId: UserId.make(-1),
+                entity: "User",
+                action: "authenticate",
+              }),
+            onSome: Effect.succeed,
+          }),
+        ),
+        Effect.withSpan("Accounts.httpSecurity"),
+      ),
+  )
+
   return {
     createUser,
     updateUser,
     findUserByAccessToken,
     findUserById,
     embellishUser,
+    httpSecurity,
   } as const
 })
 
