@@ -9,10 +9,10 @@ export const peopleApi = ApiGroup.make("people").pipe(
   ApiGroup.prefix("/people"),
   ApiGroup.add(
     ApiEndpoint.post("create", "/groups/:groupId/people").pipe(
-      ApiEndpoint.path(Schema.Struct({ groupId: GroupIdFromString })),
-      ApiEndpoint.success(Person.json),
-      ApiEndpoint.payload(Person.jsonCreate),
-      ApiEndpoint.error(GroupNotFound),
+      ApiEndpoint.setPath(Schema.Struct({ groupId: GroupIdFromString })),
+      ApiEndpoint.setSuccess(Person.json),
+      ApiEndpoint.setPayload(Person.jsonCreate),
+      ApiEndpoint.addError(GroupNotFound),
     ),
   ),
   ApiGroup.addError(Unauthorized),

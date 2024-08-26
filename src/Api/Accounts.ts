@@ -12,22 +12,24 @@ import { security } from "./Security.js"
 export const accountsApi = ApiGroup.make("accounts").pipe(
   ApiGroup.add(
     ApiEndpoint.patch("updateUser", "/users/:id").pipe(
-      ApiEndpoint.path(Schema.Struct({ id: UserIdFromString })),
-      ApiEndpoint.success(User.json),
-      ApiEndpoint.error(UserNotFound),
-      ApiEndpoint.payload(Schema.partialWith(User.jsonUpdate, { exact: true })),
+      ApiEndpoint.setPath(Schema.Struct({ id: UserIdFromString })),
+      ApiEndpoint.setSuccess(User.json),
+      ApiEndpoint.addError(UserNotFound),
+      ApiEndpoint.setPayload(
+        Schema.partialWith(User.jsonUpdate, { exact: true }),
+      ),
     ),
   ),
   ApiGroup.add(
     ApiEndpoint.get("getUserMe", "/users/me").pipe(
-      ApiEndpoint.success(UserWithSensitive.json),
+      ApiEndpoint.setSuccess(UserWithSensitive.json),
     ),
   ),
   ApiGroup.add(
     ApiEndpoint.get("getUser", "/users/:id").pipe(
-      ApiEndpoint.path(Schema.Struct({ id: UserIdFromString })),
-      ApiEndpoint.success(User.json),
-      ApiEndpoint.error(UserNotFound),
+      ApiEndpoint.setPath(Schema.Struct({ id: UserIdFromString })),
+      ApiEndpoint.setSuccess(User.json),
+      ApiEndpoint.addError(UserNotFound),
     ),
   ),
   ApiGroup.annotateEndpoints(OpenApi.Security, security),
@@ -35,8 +37,8 @@ export const accountsApi = ApiGroup.make("accounts").pipe(
   // unauthenticated
   ApiGroup.add(
     ApiEndpoint.post("createUser", "/users").pipe(
-      ApiEndpoint.success(UserWithSensitive.json),
-      ApiEndpoint.payload(User.jsonCreate),
+      ApiEndpoint.setSuccess(UserWithSensitive.json),
+      ApiEndpoint.setPayload(User.jsonCreate),
     ),
   ),
   OpenApi.annotate({
