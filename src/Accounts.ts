@@ -117,7 +117,7 @@ const make = Effect.gen(function* () {
               new Unauthorized({
                 actorId: UserId.make(-1),
                 entity: "User",
-                action: "authenticate",
+                action: "read",
               }),
             onSome: Effect.succeed,
           }),

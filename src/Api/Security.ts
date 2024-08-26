@@ -1,3 +1,3 @@
 import { ApiSecurity } from "@effect/platform"
 
-export const security = ApiSecurity.bearer()
+export const security = ApiSecurity.bearer

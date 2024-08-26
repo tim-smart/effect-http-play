@@ -2,7 +2,8 @@ import { GroupIdFromString, GroupNotFound } from "../Domain/Group.js"
 import { Schema } from "@effect/schema"
 import { Person } from "../Domain/Person.js"
 import { Unauthorized } from "../Domain/Policy.js"
-import { ApiEndpoint, ApiGroup } from "@effect/platform"
+import { ApiEndpoint, ApiGroup, OpenApi } from "@effect/platform"
+import { security } from "./Security.js"
 
 export const peopleApi = ApiGroup.make("people").pipe(
   ApiGroup.prefix("/people"),
@@ -15,4 +16,9 @@ export const peopleApi = ApiGroup.make("people").pipe(
     ),
   ),
   ApiGroup.addError(Unauthorized),
+  OpenApi.annotate({
+    title: "People",
+    description: "Manage people",
+    security,
+  }),
 )
