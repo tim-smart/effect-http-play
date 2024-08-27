@@ -5,6 +5,7 @@ import { api } from "../Api.js"
 import { policyUse, withSystemActor } from "../Domain/Policy.js"
 import { CurrentUser, UserNotFound } from "../Domain/User.js"
 import { AccountsPolicy } from "./Policy.js"
+import { security } from "../Api/Security.js"
 
 export const HttpAccountsLive = ApiBuilder.group(api, "accounts", (handlers) =>
   Effect.gen(function* () {
@@ -39,7 +40,12 @@ export const HttpAccountsLive = ApiBuilder.group(api, "accounts", (handlers) =>
       accounts.httpSecurity,
       // unprotected
       ApiBuilder.handle("createUser", ({ payload }) =>
-        withSystemActor(accounts.createUser(payload)),
+        accounts.createUser(payload).pipe(
+          withSystemActor,
+          Effect.tap((user) =>
+            ApiBuilder.securitySetCookie(security, user.accessToken),
+          ),
+        ),
       ),
     )
   }),
