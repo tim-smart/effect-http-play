@@ -1,7 +1,7 @@
 import { Effect } from "effect"
 import { CurrentUser, User, UserId } from "../Domain/User.js"
 import { Schema } from "@effect/schema"
-import { ApiSchema } from "@effect/platform"
+import { HttpApiSchema } from "@effect/platform"
 
 export class Unauthorized extends Schema.TaggedError<Unauthorized>()(
   "Unauthorized",
@@ -10,7 +10,7 @@ export class Unauthorized extends Schema.TaggedError<Unauthorized>()(
     entity: Schema.String,
     action: Schema.String,
   },
-  ApiSchema.annotations({ status: 403 }),
+  HttpApiSchema.annotations({ status: 403 }),
 ) {
   get message() {
     return `Actor (${this.actorId}) is not authorized to perform action "${this.action}" on entity "${this.entity}"`

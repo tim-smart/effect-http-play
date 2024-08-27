@@ -1,4 +1,4 @@
-import { ApiBuilder } from "@effect/platform"
+import { HttpApiBuilder } from "@effect/platform"
 import { Effect, Layer, pipe } from "effect"
 import { Accounts } from "../Accounts.js"
 import { api } from "../Api.js"
@@ -7,7 +7,7 @@ import { Groups } from "../Groups.js"
 import { People } from "../People.js"
 import { PeoplePolicy } from "./Policy.js"
 
-export const HttpPeopleLive = ApiBuilder.group(api, "people", (handlers) =>
+export const HttpPeopleLive = HttpApiBuilder.group(api, "people", (handlers) =>
   Effect.gen(function* () {
     const groups = yield* Groups
     const people = yield* People
@@ -15,7 +15,7 @@ export const HttpPeopleLive = ApiBuilder.group(api, "people", (handlers) =>
     const accounts = yield* Accounts
 
     return handlers.pipe(
-      ApiBuilder.handle("create", ({ payload, path }) =>
+      HttpApiBuilder.handle("create", ({ payload, path }) =>
         groups.with(path.groupId, (group) =>
           pipe(
             people.create(group.id, payload),

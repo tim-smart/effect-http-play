@@ -1,10 +1,10 @@
-import { ApiSchema } from "@effect/platform"
 import { Schema } from "@effect/schema"
 import { Model } from "@effect/sql"
 import { Context } from "effect"
 import { AccessToken } from "./AccessToken.js"
 import { Account, AccountId } from "./Account.js"
 import { Email } from "./Email.js"
+import { HttpApiSchema } from "@effect/platform"
 
 export const UserId = Schema.Number.pipe(Schema.brand("UserId"))
 export type UserId = typeof UserId.Type
@@ -38,5 +38,5 @@ export class CurrentUser extends Context.Tag("Domain/User/CurrentUser")<
 export class UserNotFound extends Schema.TaggedError<UserNotFound>()(
   "UserNotFound",
   { id: UserId },
-  ApiSchema.annotations({ status: 404 }),
+  HttpApiSchema.annotations({ status: 404 }),
 ) {}

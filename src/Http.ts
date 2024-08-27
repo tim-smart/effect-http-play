@@ -1,6 +1,6 @@
 import {
-  ApiBuilder,
-  ApiSwagger,
+  HttpApiBuilder,
+  HttpApiSwagger,
   HttpMiddleware,
   HttpServer,
 } from "@effect/platform"
@@ -12,15 +12,15 @@ import { HttpAccountsLive } from "./Accounts/Http.js"
 import { HttpGroupsLive } from "./Groups/Http.js"
 import { HttpPeopleLive } from "./People/Http.js"
 
-const ApiLive = ApiBuilder.api(api).pipe(
+const ApiLive = HttpApiBuilder.api(api).pipe(
   Layer.provide(HttpAccountsLive),
   Layer.provide(HttpGroupsLive),
   Layer.provide(HttpPeopleLive),
 )
 
-export const HttpLive = ApiBuilder.serve(HttpMiddleware.logger).pipe(
-  Layer.provide(ApiSwagger.layer()),
-  Layer.provide(ApiBuilder.middlewareCors()),
+export const HttpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
+  Layer.provide(HttpApiSwagger.layer()),
+  Layer.provide(HttpApiBuilder.middlewareCors()),
   Layer.provide(ApiLive),
   HttpServer.withLogAddress,
   Layer.provide(NodeHttpServer.layer(createServer, { port: 3000 })),

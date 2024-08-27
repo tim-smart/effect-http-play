@@ -2,20 +2,20 @@ import { GroupIdFromString, GroupNotFound } from "../Domain/Group.js"
 import { Schema } from "@effect/schema"
 import { Person } from "../Domain/Person.js"
 import { Unauthorized } from "../Domain/Policy.js"
-import { ApiEndpoint, ApiGroup, OpenApi } from "@effect/platform"
+import { HttpApiEndpoint, HttpApiGroup, OpenApi } from "@effect/platform"
 import { security } from "./Security.js"
 
-export const peopleApi = ApiGroup.make("people").pipe(
-  ApiGroup.prefix("/people"),
-  ApiGroup.add(
-    ApiEndpoint.post("create", "/groups/:groupId/people").pipe(
-      ApiEndpoint.setPath(Schema.Struct({ groupId: GroupIdFromString })),
-      ApiEndpoint.setSuccess(Person.json),
-      ApiEndpoint.setPayload(Person.jsonCreate),
-      ApiEndpoint.addError(GroupNotFound),
+export const peopleApi = HttpApiGroup.make("people").pipe(
+  HttpApiGroup.prefix("/people"),
+  HttpApiGroup.add(
+    HttpApiEndpoint.post("create", "/groups/:groupId/people").pipe(
+      HttpApiEndpoint.setPath(Schema.Struct({ groupId: GroupIdFromString })),
+      HttpApiEndpoint.setSuccess(Person.json),
+      HttpApiEndpoint.setPayload(Person.jsonCreate),
+      HttpApiEndpoint.addError(GroupNotFound),
     ),
   ),
-  ApiGroup.addError(Unauthorized),
+  HttpApiGroup.addError(Unauthorized),
   OpenApi.annotate({
     title: "People",
     description: "Manage people",

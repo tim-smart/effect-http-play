@@ -1,6 +1,6 @@
-import { ApiSecurity } from "@effect/platform"
+import { HttpApiSecurity } from "@effect/platform"
 
-export const security = ApiSecurity.apiKey({
+export const security = HttpApiSecurity.apiKey({
   in: "cookie",
   key: "token",
 })

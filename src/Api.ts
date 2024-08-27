@@ -1,11 +1,11 @@
-import { Api, OpenApi } from "@effect/platform"
+import { HttpApi, OpenApi } from "@effect/platform"
 import { accountsApi } from "./Api/Accounts.js"
 import { groupsApi } from "./Api/Groups.js"
 import { peopleApi } from "./Api/People.js"
 
-export const api = Api.empty.pipe(
-  Api.addGroup(accountsApi),
-  Api.addGroup(groupsApi),
-  Api.addGroup(peopleApi),
+export const api = HttpApi.empty.pipe(
+  HttpApi.addGroup(accountsApi),
+  HttpApi.addGroup(groupsApi),
+  HttpApi.addGroup(peopleApi),
   OpenApi.annotate({ title: "Groups API" }),
 )

@@ -1,11 +1,11 @@
-import { ApiClient } from "@effect/platform"
+import { HttpApiClient } from "@effect/platform"
 import { NodeHttpClient, NodeRuntime } from "@effect/platform-node"
 import { Effect } from "effect"
 import { api } from "./Api.js"
 import { Email } from "./Domain/Email.js"
 
 Effect.gen(function* () {
-  const client = yield* ApiClient.make(api, {
+  const client = yield* HttpApiClient.make(api, {
     baseUrl: "http://localhost:3000",
   })
   const user = yield* client.accounts.createUser({
