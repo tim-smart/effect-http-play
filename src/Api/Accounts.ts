@@ -9,7 +9,7 @@ import { HttpApiEndpoint, HttpApiGroup, OpenApi } from "@effect/platform"
 import { Unauthorized } from "../Domain/Policy.js"
 import { security } from "./Security.js"
 
-export const accountsApi = HttpApiGroup.make("accounts").pipe(
+export class AccountsApi extends HttpApiGroup.make("accounts").pipe(
   HttpApiGroup.add(
     HttpApiEndpoint.patch("updateUser", "/users/:id").pipe(
       HttpApiEndpoint.setPath(Schema.Struct({ id: UserIdFromString })),
@@ -45,4 +45,4 @@ export const accountsApi = HttpApiGroup.make("accounts").pipe(
     title: "Accounts",
     description: "Manage user accounts",
   }),
-)
+) {}

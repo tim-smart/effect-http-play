@@ -5,7 +5,7 @@ import { Unauthorized } from "../Domain/Policy.js"
 import { HttpApiEndpoint, HttpApiGroup, OpenApi } from "@effect/platform"
 import { security } from "./Security.js"
 
-export const peopleApi = HttpApiGroup.make("people").pipe(
+export class PeopleApi extends HttpApiGroup.make("people").pipe(
   HttpApiGroup.prefix("/people"),
   HttpApiGroup.add(
     HttpApiEndpoint.post("create", "/groups/:groupId/people").pipe(
@@ -21,4 +21,4 @@ export const peopleApi = HttpApiGroup.make("people").pipe(
     description: "Manage people",
     security,
   }),
-)
+) {}

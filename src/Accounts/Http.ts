@@ -1,14 +1,14 @@
 import { HttpApiBuilder } from "@effect/platform"
 import { Effect, Layer, Option, pipe } from "effect"
 import { Accounts } from "../Accounts.js"
-import { api } from "../Api.js"
+import { Api } from "../Api.js"
 import { policyUse, withSystemActor } from "../Domain/Policy.js"
 import { CurrentUser, UserNotFound } from "../Domain/User.js"
 import { AccountsPolicy } from "./Policy.js"
 import { security } from "../Api/Security.js"
 
 export const HttpAccountsLive = HttpApiBuilder.group(
-  api,
+  Api,
   "accounts",
   (handlers) =>
     Effect.gen(function* () {

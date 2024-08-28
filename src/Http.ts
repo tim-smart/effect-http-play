@@ -7,12 +7,12 @@ import {
 import { Layer } from "effect"
 import { NodeHttpServer } from "@effect/platform-node"
 import { createServer } from "http"
-import { api } from "./Api.js"
+import { Api } from "./Api.js"
 import { HttpAccountsLive } from "./Accounts/Http.js"
 import { HttpGroupsLive } from "./Groups/Http.js"
 import { HttpPeopleLive } from "./People/Http.js"
 
-const ApiLive = HttpApiBuilder.api(api).pipe(
+const ApiLive = HttpApiBuilder.api(Api).pipe(
   Layer.provide(HttpAccountsLive),
   Layer.provide(HttpGroupsLive),
   Layer.provide(HttpPeopleLive),
