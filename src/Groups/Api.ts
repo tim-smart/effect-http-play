@@ -2,7 +2,7 @@ import { Group, GroupIdFromString, GroupNotFound } from "../Domain/Group.js"
 import { Schema } from "@effect/schema"
 import { HttpApiEndpoint, HttpApiGroup, OpenApi } from "@effect/platform"
 import { Unauthorized } from "../Domain/Policy.js"
-import { security } from "./Security.js"
+import { security } from "../Api/Security.js"
 
 export class GroupsApi extends HttpApiGroup.make("groups").pipe(
   HttpApiGroup.add(

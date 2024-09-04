@@ -1,13 +1,13 @@
+import { HttpApiEndpoint, HttpApiGroup, OpenApi } from "@effect/platform"
 import { Schema } from "@effect/schema"
+import { security } from "../Api/Security.js"
+import { Unauthorized } from "../Domain/Policy.js"
 import {
   User,
   UserIdFromString,
   UserNotFound,
   UserWithSensitive,
 } from "../Domain/User.js"
-import { HttpApiEndpoint, HttpApiGroup, OpenApi } from "@effect/platform"
-import { Unauthorized } from "../Domain/Policy.js"
-import { security } from "./Security.js"
 
 export class AccountsApi extends HttpApiGroup.make("accounts").pipe(
   HttpApiGroup.add(

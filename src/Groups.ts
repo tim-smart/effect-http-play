@@ -1,4 +1,4 @@
-import { Cause, Effect, Layer, Option, pipe } from "effect"
+import { Effect, Layer, Option, pipe } from "effect"
 import { GroupsRepo } from "./Groups/Repo.js"
 import { AccountId } from "./Domain/Account.js"
 import { Group, GroupId, GroupNotFound } from "./Domain/Group.js"
