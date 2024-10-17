@@ -8,7 +8,7 @@ export const TracingLive = Layer.unwrapEffect(
     const apiKey = yield* Config.option(Config.redacted("HONEYCOMB_API_KEY"))
     const dataset = yield* Config.withDefault(
       Config.string("HONEYCOMB_DATASET"),
-      "stremio-effect",
+      "effect-http-play",
     )
     if (apiKey._tag === "None") {
       const endpoint = yield* Config.option(

@@ -43,9 +43,9 @@
               }
             ];
           };
-          services.redis.redis.enable = true;
           settings.processes.tsx = {
             command = "pnpm dev";
+            is_foreground = true;
           };
         };
       };

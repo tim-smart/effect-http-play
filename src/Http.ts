@@ -12,11 +12,11 @@ import { HttpAccountsLive } from "./Accounts/Http.js"
 import { HttpGroupsLive } from "./Groups/Http.js"
 import { HttpPeopleLive } from "./People/Http.js"
 
-const ApiLive = HttpApiBuilder.api(Api).pipe(
-  Layer.provide(HttpAccountsLive),
-  Layer.provide(HttpGroupsLive),
-  Layer.provide(HttpPeopleLive),
-)
+const ApiLive = Layer.provide(HttpApiBuilder.api(Api), [
+  HttpAccountsLive,
+  HttpGroupsLive,
+  HttpPeopleLive,
+])
 
 export const HttpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
   Layer.provide(HttpApiSwagger.layer()),

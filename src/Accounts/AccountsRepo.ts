@@ -1,5 +1,5 @@
 import { Model } from "@effect/sql"
-import { Context, Effect, Layer } from "effect"
+import { Effect } from "effect"
 import { Account } from "../Domain/Account.js"
 import { SqlLive } from "../Sql.js"
 import { makeTestLayer } from "../lib/Layer.js"
@@ -10,10 +10,16 @@ export const make = Model.makeRepository(Account, {
   idColumn: "id",
 })
 
-export class AccountsRepo extends Context.Tag("Accounts/AccountsRepo")<
-  AccountsRepo,
-  Effect.Effect.Success<typeof make>
->() {
-  static Live = Layer.effect(AccountsRepo, make).pipe(Layer.provide(SqlLive))
+export class AccountsRepo extends Effect.Service<AccountsRepo>()(
+  "Accounts/AccountsRepo",
+  {
+    effect: Model.makeRepository(Account, {
+      tableName: "accounts",
+      spanPrefix: "AccountsRepo",
+      idColumn: "id",
+    }),
+    dependencies: [SqlLive],
+  },
+) {
   static Test = makeTestLayer(AccountsRepo)({})
 }

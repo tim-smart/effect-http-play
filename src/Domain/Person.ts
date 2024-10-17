@@ -1,4 +1,4 @@
-import { Schema } from "@effect/schema"
+import { Schema } from "effect"
 import { Model } from "@effect/sql"
 import { GroupId } from "./Group.js"
 
@@ -19,6 +19,9 @@ export class Person extends Model.Class<Person>("Person")({
   updatedAt: Model.DateTimeUpdate,
 }) {}
 
-export class PersonNotFound extends Schema.TaggedError<PersonNotFound>()("PersonNotFound", {
-  id: PersonId,
-}) {}
+export class PersonNotFound extends Schema.TaggedError<PersonNotFound>()(
+  "PersonNotFound",
+  {
+    id: PersonId,
+  },
+) {}
