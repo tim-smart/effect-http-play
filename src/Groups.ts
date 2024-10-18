@@ -68,11 +68,3 @@ export class Groups extends Effect.Service<Groups>()("Groups", {
   }),
   dependencies: [SqlLive, GroupsRepo.Default],
 }) {}
-
-export const withGroup = <A, E, R>(
-  id: GroupId,
-  f: (group: Group, groups: Groups) => Effect.Effect<A, E, R>,
-) =>
-  Effect.flatMap(Groups, (groups) =>
-    groups.with(id, (group) => f(group, groups)),
-  )
