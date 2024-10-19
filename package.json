@@ -12,7 +12,7 @@
   "packageManager": "pnpm@9.12.0",
   "devDependencies": {
     "@effect/language-service": "^0.2.0",
-    "@effect/vitest": "https://pkg.pr.new/Effect-TS/effect/@effect/vitest@fb8a518",
+    "@effect/vitest": "https://pkg.pr.new/Effect-TS/effect/@effect/vitest@b2f6cff",
     "@types/node": "^22.7.6",
     "@types/uuid": "^10.0.0",
     "prettier": "^3.3.3",
@@ -22,17 +22,17 @@
     "vitest": "^2.1.3"
   },
   "dependencies": {
-    "@effect/experimental": "https://pkg.pr.new/Effect-TS/effect/@effect/experimental@fb8a518",
-    "@effect/opentelemetry": "https://pkg.pr.new/Effect-TS/effect/@effect/opentelemetry@fb8a518",
-    "@effect/platform": "https://pkg.pr.new/Effect-TS/effect/@effect/platform@fb8a518",
-    "@effect/platform-node": "https://pkg.pr.new/Effect-TS/effect/@effect/platform-node@fb8a518",
-    "@effect/platform-node-shared": "https://pkg.pr.new/Effect-TS/effect/@effect/platform-node-shared@fb8a518",
-    "@effect/sql": "https://pkg.pr.new/Effect-TS/effect/@effect/sql@fb8a518",
-    "@effect/sql-sqlite-node": "https://pkg.pr.new/Effect-TS/effect/@effect/sql-sqlite-node@fb8a518",
+    "@effect/experimental": "https://pkg.pr.new/Effect-TS/effect/@effect/experimental@b2f6cff",
+    "@effect/opentelemetry": "https://pkg.pr.new/Effect-TS/effect/@effect/opentelemetry@b2f6cff",
+    "@effect/platform": "https://pkg.pr.new/Effect-TS/effect/@effect/platform@b2f6cff",
+    "@effect/platform-node": "https://pkg.pr.new/Effect-TS/effect/@effect/platform-node@b2f6cff",
+    "@effect/platform-node-shared": "https://pkg.pr.new/Effect-TS/effect/@effect/platform-node-shared@b2f6cff",
+    "@effect/sql": "https://pkg.pr.new/Effect-TS/effect/@effect/sql@b2f6cff",
+    "@effect/sql-sqlite-node": "https://pkg.pr.new/Effect-TS/effect/@effect/sql-sqlite-node@b2f6cff",
     "@opentelemetry/exporter-trace-otlp-http": "^0.53.0",
     "@opentelemetry/sdk-trace-base": "^1.26.0",
     "@opentelemetry/sdk-trace-node": "^1.26.0",
-    "effect": "https://pkg.pr.new/Effect-TS/effect@fb8a518",
+    "effect": "https://pkg.pr.new/Effect-TS/effect@b2f6cff",
     "uuid": "^10.0.0"
   }
 }

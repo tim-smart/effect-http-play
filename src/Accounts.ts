@@ -97,26 +97,6 @@ export class Accounts extends Effect.Service<Accounts>()("Accounts", {
         }),
         policyRequire("User", "readSensitive"),
       )
-    //
-    // const httpSecurity = HttpApiBuilder.middlewareSecurity(
-    //   security,
-    //   CurrentUser,
-    //   (token) =>
-    //     userRepo.findByAccessToken(accessTokenFromRedacted(token)).pipe(
-    //       Effect.flatMap(
-    //         Option.match({
-    //           onNone: () =>
-    //             new Unauthorized({
-    //               actorId: UserId.make(-1),
-    //               entity: "User",
-    //               action: "read",
-    //             }),
-    //           onSome: Effect.succeed,
-    //         }),
-    //       ),
-    //       Effect.withSpan("Accounts.httpSecurity"),
-    //     ),
-    // )
 
     return {
       createUser,
