@@ -12,7 +12,7 @@
   "packageManager": "pnpm@9.12.2",
   "devDependencies": {
     "@effect/language-service": "^0.2.0",
-    "@effect/vitest": "https://pkg.pr.new/Effect-TS/effect/@effect/vitest@b82348b",
+    "@effect/vitest": "^0.13.0",
     "@types/node": "^22.7.6",
     "@types/uuid": "^10.0.0",
     "prettier": "^3.3.3",
@@ -22,17 +22,16 @@
     "vitest": "^2.1.3"
   },
   "dependencies": {
-    "@effect/experimental": "https://pkg.pr.new/Effect-TS/effect/@effect/experimental@b82348b",
-    "@effect/opentelemetry": "https://pkg.pr.new/Effect-TS/effect/@effect/opentelemetry@b82348b",
-    "@effect/platform": "https://pkg.pr.new/Effect-TS/effect/@effect/platform@b82348b",
-    "@effect/platform-node": "https://pkg.pr.new/Effect-TS/effect/@effect/platform-node@b82348b",
-    "@effect/platform-node-shared": "https://pkg.pr.new/Effect-TS/effect/@effect/platform-node-shared@b82348b",
-    "@effect/sql": "https://pkg.pr.new/Effect-TS/effect/@effect/sql@b82348b",
-    "@effect/sql-sqlite-node": "https://pkg.pr.new/Effect-TS/effect/@effect/sql-sqlite-node@b82348b",
+    "@effect/experimental": "^0.30.0",
+    "@effect/opentelemetry": "^0.39.0",
+    "@effect/platform": "^0.69.0",
+    "@effect/platform-node": "^0.64.0",
+    "@effect/sql": "^0.18.0",
+    "@effect/sql-sqlite-node": "^0.18.0",
     "@opentelemetry/exporter-trace-otlp-http": "^0.53.0",
     "@opentelemetry/sdk-trace-base": "^1.26.0",
     "@opentelemetry/sdk-trace-node": "^1.26.0",
-    "effect": "https://pkg.pr.new/Effect-TS/effect@b82348b",
+    "effect": "^3.10.0",
     "uuid": "^10.0.0"
   }
 }
