@@ -7,4 +7,5 @@ export class Api extends HttpApi.empty
   .add(AccountsApi)
   .add(GroupsApi)
   .add(PeopleApi)
-  .annotate(OpenApi.Title, "Groups API") {}
+  .annotate(OpenApi.Title, "Groups API")
+  .annotate(OpenApi.Servers, [{ url: "http://localhost:3000" }]) {}

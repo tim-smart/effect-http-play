@@ -1,6 +1,6 @@
 import {
   HttpApiBuilder,
-  HttpApiSwagger,
+  HttpApiScalar,
   HttpMiddleware,
   HttpServer,
 } from "@effect/platform"
@@ -19,7 +19,7 @@ const ApiLive = Layer.provide(HttpApiBuilder.api(Api), [
 ])
 
 export const HttpLive = HttpApiBuilder.serve(HttpMiddleware.logger).pipe(
-  Layer.provide(HttpApiSwagger.layer()),
+  Layer.provide(HttpApiScalar.layer()),
   Layer.provide(HttpApiBuilder.middlewareOpenApi()),
   Layer.provide(HttpApiBuilder.middlewareCors()),
   Layer.provide(ApiLive),
