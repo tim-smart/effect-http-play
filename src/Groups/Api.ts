@@ -1,6 +1,10 @@
 import { Group, GroupIdFromString, GroupNotFound } from "../Domain/Group.js"
-import { HttpApiEndpoint, HttpApiGroup, OpenApi } from "@effect/platform"
-import { Schema } from "effect"
+import {
+  HttpApiEndpoint,
+  HttpApiGroup,
+  HttpApiSchema,
+  OpenApi,
+} from "@effect/platform"
 import { Authentication } from "../Accounts/Api.js"
 
 export class GroupsApi extends HttpApiGroup.make("groups")
@@ -10,8 +14,9 @@ export class GroupsApi extends HttpApiGroup.make("groups")
       .setPayload(Group.jsonCreate),
   )
   .add(
-    HttpApiEndpoint.patch("update", "/:id")
-      .setPath(Schema.Struct({ id: GroupIdFromString }))
+    HttpApiEndpoint.patch(
+      "update",
+    )`/${HttpApiSchema.param("id", GroupIdFromString)}`
       .addSuccess(Group.json)
       .setPayload(Group.jsonUpdate)
       .addError(GroupNotFound),

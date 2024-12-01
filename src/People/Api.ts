@@ -1,20 +1,26 @@
 import { GroupIdFromString, GroupNotFound } from "../Domain/Group.js"
 import { Person, PersonIdFromString, PersonNotFound } from "../Domain/Person.js"
-import { HttpApiEndpoint, HttpApiGroup, OpenApi } from "@effect/platform"
+import {
+  HttpApiEndpoint,
+  HttpApiGroup,
+  HttpApiSchema,
+  OpenApi,
+} from "@effect/platform"
 import { Authentication } from "../Accounts/Api.js"
-import { Schema } from "effect"
 
 export class PeopleApi extends HttpApiGroup.make("people")
   .add(
-    HttpApiEndpoint.get("findById", "/:id")
-      .setPath(Schema.Struct({ id: PersonIdFromString }))
+    HttpApiEndpoint.get(
+      "findById",
+    )`/${HttpApiSchema.param("id", PersonIdFromString)}`
       .addSuccess(Person.json)
       .addError(PersonNotFound),
   )
   .prefix("/people")
   .add(
-    HttpApiEndpoint.post("create", "/groups/:groupId/people")
-      .setPath(Schema.Struct({ groupId: GroupIdFromString }))
+    HttpApiEndpoint.post(
+      "create",
+    )`/groups/${HttpApiSchema.param("groupId", GroupIdFromString)}/people`
       .addSuccess(Person.json)
       .setPayload(Person.jsonCreate)
       .addError(GroupNotFound),

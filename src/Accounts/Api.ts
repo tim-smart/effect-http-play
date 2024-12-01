@@ -2,6 +2,7 @@ import {
   HttpApiEndpoint,
   HttpApiGroup,
   HttpApiMiddleware,
+  HttpApiSchema,
   HttpApiSecurity,
   OpenApi,
 } from "@effect/platform"
@@ -31,8 +32,9 @@ export class Authentication extends HttpApiMiddleware.Tag<Authentication>()(
 
 export class AccountsApi extends HttpApiGroup.make("accounts")
   .add(
-    HttpApiEndpoint.patch("updateUser", "/users/:id")
-      .setPath(Schema.Struct({ id: UserIdFromString }))
+    HttpApiEndpoint.patch(
+      "updateUser",
+    )`/users/${HttpApiSchema.param("id", UserIdFromString)}`
       .addSuccess(User.json)
       .addError(UserNotFound)
       .setPayload(Schema.partialWith(User.jsonUpdate, { exact: true })),
@@ -43,8 +45,9 @@ export class AccountsApi extends HttpApiGroup.make("accounts")
     ),
   )
   .add(
-    HttpApiEndpoint.get("getUser", "/users/:id")
-      .setPath(Schema.Struct({ id: UserIdFromString }))
+    HttpApiEndpoint.get(
+      "getUser",
+    )`/users/${HttpApiSchema.param("id", UserIdFromString)}`
       .addSuccess(User.json)
       .addError(UserNotFound),
   )
