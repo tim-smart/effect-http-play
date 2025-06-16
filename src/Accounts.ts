@@ -1,5 +1,5 @@
 import { SqlClient } from "@effect/sql"
-import { Effect, Layer, Option, pipe } from "effect"
+import { Effect, Layer, Option, pipe, Scope } from "effect"
 import { AccountsRepo } from "./Accounts/AccountsRepo.js"
 import { UsersRepo } from "./Accounts/UsersRepo.js"
 import { AccessToken, accessTokenFromString } from "./Domain/AccessToken.js"
@@ -16,59 +16,46 @@ export class Accounts extends Effect.Service<Accounts>()("Accounts", {
     const userRepo = yield* UsersRepo
     const uuid = yield* Uuid
 
-    const createUser = (user: typeof User.jsonCreate.Type) =>
-      accountRepo.insert(Account.insert.make({})).pipe(
-        Effect.tap((account) => Effect.annotateCurrentSpan("account", account)),
-        Effect.bindTo("account"),
-        Effect.bind("accessToken", () =>
-          uuid.generate.pipe(Effect.map(accessTokenFromString)),
-        ),
-        Effect.bind("user", ({ account, accessToken }) =>
-          userRepo.insert(
-            User.insert.make({
-              ...user,
-              accountId: account.id,
-              accessToken,
-            }),
-          ),
-        ),
-        Effect.map(
-          ({ user, account }) =>
-            new UserWithSensitive({
-              ...user,
-              account,
-            }),
-        ),
-        sql.withTransaction,
-        Effect.orDie,
-        Effect.withSpan("Accounts.createUser", { attributes: { user } }),
-        policyRequire("User", "create"),
-      )
-
-    const updateUser = (
-      id: UserId,
-      user: Partial<typeof User.jsonUpdate.Type>,
-    ) =>
-      userRepo.findById(id).pipe(
-        Effect.flatMap(
-          Option.match({
-            onNone: () => new UserNotFound({ id }),
-            onSome: Effect.succeed,
-          }),
-        ),
-        Effect.andThen((previous) =>
-          userRepo.update({
-            ...previous,
+    const createUser = Effect.fn("Accounts.createUser")(
+      function* (user: typeof User.jsonCreate.Type) {
+        yield* Effect.annotateCurrentSpan("user", user)
+        const account = yield* accountRepo.insert(Account.insert.make({}))
+        const accessToken = accessTokenFromString(yield* uuid.generate)
+        const inserted = yield* userRepo.insert(
+          User.insert.make({
             ...user,
-            id,
-            updatedAt: undefined,
+            accountId: account.id,
+            accessToken,
           }),
-        ),
-        sql.withTransaction,
-        Effect.catchTag("SqlError", (err) => Effect.die(err)),
-        Effect.withSpan("Accounts.updateUser", { attributes: { id, user } }),
-        policyRequire("User", "update"),
-      )
+        )
+        return new UserWithSensitive({
+          ...inserted,
+          account,
+        })
+      },
+      sql.withTransaction,
+      Effect.scoped,
+      Effect.orDie,
+      policyRequire("User", "create"),
+    )
+
+    const updateUser = Effect.fn("Accounts.updateUser")(
+      function* (id: UserId, user: typeof User.jsonUpdate.Type) {
+        const previous = yield* userRepo.findById(id)
+        if (Option.isNone(previous)) {
+          return yield* new UserNotFound({ id })
+        }
+        return yield* userRepo.update({
+          ...previous.value,
+          ...user,
+          id,
+          updatedAt: undefined,
+        })
+      },
+      sql.withTransaction,
+      Effect.catchTag("SqlError", (err) => Effect.die(err)),
+      policyRequire("User", "update"),
+    )
 
     const findUserByAccessToken = (apiKey: AccessToken) =>
       pipe(
