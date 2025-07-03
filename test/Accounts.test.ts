@@ -26,6 +26,7 @@ describe("Accounts", () => {
         Accounts.Test.pipe(
           Layer.provide(
             makeTestLayer(AccountsRepo)({
+              _tag: "Accounts/AccountsRepo",
               insert: (account) =>
                 Effect.map(
                   DateTime.now,
@@ -41,6 +42,7 @@ describe("Accounts", () => {
           ),
           Layer.provide(
             makeTestLayer(UsersRepo)({
+              _tag: "Accounts/UsersRepo",
               insert: (user) =>
                 Effect.map(
                   DateTime.now,

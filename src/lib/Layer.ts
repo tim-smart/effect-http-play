@@ -1,4 +1,4 @@
-import { Context, Effect, Layer } from "effect"
+import { Context, Effect, Layer, Types } from "effect"
 
 const makeUnimplemented = (id: string, prop: PropertyKey) => {
   const dead = Effect.die(`${id}: Unimplemented method "${prop.toString()}"`)
@@ -24,7 +24,23 @@ const makeUnimplementedProxy = <A extends object>(
     has: () => true,
   })
 
+export type PartialEffectful<A extends object> = Types.Simplify<
+  {
+    [K in keyof A as A[K] extends
+      | Effect.Effect<any, any, any>
+      | ((...args: any) => Effect.Effect<any, any, any>)
+      ? K
+      : never]?: A[K]
+  } & {
+    [K in keyof A as A[K] extends
+      | Effect.Effect<any, any, any>
+      | ((...args: any) => Effect.Effect<any, any, any>)
+      ? never
+      : K]: A[K]
+  }
+>
+
 export const makeTestLayer =
   <I, S extends object>(tag: Context.Tag<I, S>) =>
-  (service: Partial<S>): Layer.Layer<I> =>
-    Layer.succeed(tag, makeUnimplementedProxy(tag.key, service))
+  (service: PartialEffectful<S>): Layer.Layer<I> =>
+    Layer.succeed(tag, makeUnimplementedProxy(tag.key, service as S))
