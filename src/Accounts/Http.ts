@@ -45,8 +45,20 @@ export const HttpAccountsLive = HttpApiBuilder.group(
       return handlers
         .handle("updateUser", ({ payload, path }) =>
           pipe(
-            accounts.updateUser(path.id, payload),
-            policyUse(policy.canUpdate(path.id)),
+            accounts.findUserById(path.id),
+            withSystemActor,
+            Effect.flatMap(
+              Option.match({
+                onNone: () => new UserNotFound({ id: path.id }),
+                onSome: (user) =>
+                  accounts
+                    .updateUser(user.id, {
+                      ...user,
+                      ...payload,
+                    })
+                    .pipe(policyUse(policy.canUpdate(user))),
+              }),
+            ),
           ),
         )
         .handle("getUserMe", () =>

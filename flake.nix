@@ -15,7 +15,7 @@
         devShells.default = pkgs.mkShell {
           nativeBuildInputs = with pkgs; [
             corepack
-            nodejs_22
+            nodejs
           ];
         };
 
